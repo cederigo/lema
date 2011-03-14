@@ -7,3 +7,7 @@
 *.dvi
 *.class
 .metadata/
+.settings
+.project
+.classpath
+
