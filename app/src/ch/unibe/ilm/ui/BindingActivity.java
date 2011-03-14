@@ -1,0 +1,61 @@
+package ch.unibe.ilm.ui;
+
+import ch.unibe.ilm.Service;
+import ch.unibe.ilm.Service.LocalBinder;
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.util.Log;
+
+public abstract class BindingActivity extends Activity {
+  
+  
+  private static final String TAG_NAME = "binding";
+  protected Service mService;
+  protected boolean mBound = false;
+
+  /** Defines callbacks for service binding, passed to bindService() */
+  private ServiceConnection mConnection = new ServiceConnection() {
+
+    public void onServiceConnected(ComponentName name, IBinder service) {
+      // We've bound to LocalService, cast the IBinder and get LocalService
+      // instance
+      Log.d(TAG_NAME, "service connected");
+      LocalBinder binder = (LocalBinder) service;
+      mService = binder.getService();
+      mBound = true;
+    }
+
+    public void onServiceDisconnected(ComponentName arg0) {
+      mBound = false;
+    }
+  };
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
+  @Override
+  protected void onStart() {
+    super.onStart();
+    // Bind to LocalService
+    Intent intent = new Intent(this, Service.class);
+    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+  }
+
+  @Override
+  protected void onStop() {
+    super.onStop();
+    // Unbind from the service
+    if (mBound) {
+      unbindService(mConnection);
+      mBound = false;
+    }
+  }
+
+}
