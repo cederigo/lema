@@ -6,4 +6,4 @@
 *.snm
 *.dvi
 *.class
-
+.metadata/
