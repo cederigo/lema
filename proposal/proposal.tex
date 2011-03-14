@@ -1,7 +1,7 @@
 \documentclass{beamer}
 \usepackage[latin1]{inputenc}
 \usetheme{Boadilla}
-\title[Integrated Lecture Management]{A proposal for the practical assignment in MoC 2011}
+\title[Integrated Lecture Management]{Integrated Lecture Management: Proposal for practical assignment in MoC 2011}
 \date{\today}
 \institute{IAM}
 \author{Cedric Reginster, Bjoern Mosler}
@@ -20,7 +20,7 @@
 \begin{frame}{Basic Idea}
 
 	\section{Basic Idea}
-	Facilitate lecture management by integrating EVUBS, Google Calendar and Google Maps.
+	Make lecture management more convenient by integrating EVUBS, Google Calendar and Google Maps.
 
 \end{frame}
 
@@ -46,25 +46,27 @@
 
 \begin{frame}{Google Calendar \& Google Maps}
 	\subsection{Google Calendar \& Maps}
-	Who does not know them?
+	Is anyone not familiar with those two?
 \end{frame}
 
 \begin{frame}{Functionality}
 	\section{Application details}
 	\subsection{Functionality}
+	\begin{block}{Basic lecture management}
 	\begin{itemize}
 		\item Allow users to browse lectures like in EVUB.
 		\item Allow user to ``subscribe'' to a lecture.
 		\item Show subscriptions on home screen for convenient access.
 	\end{itemize}
+	\end{block}
 
-	For subscribed lectures:
+	\begin{block}{Features for subscribed lectures}
 	\begin{itemize}
-		\item On demand present route from current location to location where lecture takes place using Google Maps.
+		\item On demand present route from current location to where lecture takes place using Google Maps and the device's GPS module.
 		\item Automatically add lecture as an appointment to Google Calendar.
 		\item User may create tasks belonging to a lecture, i.e. weekly exercises, projects etc. Would also be added to Google Calendar.
 	\end{itemize}
-	
+	\end{block}
 \end{frame}
 
 \begin{frame}{Home screen prototype}
@@ -74,6 +76,24 @@
 		\includegraphics[scale=0.5]{home.png}
 	\end{center}
 
+\end{frame}
+
+\begin{frame}{Milestones}
+	\section{Milestones}
+	\subsection{1}
+		\begin{block}{Milestone 1}
+		Everything except integration with Google Calendar and Google Maps
+		\begin{itemize}
+			\item User interface
+			\item Integration with EVUBS
+			\item subscribe-functionality
+		\end{itemize}	
+	\end{block}
+\bigskip 
+	\subsection{2}
+	\begin{block}{Milestone 2}
+	Integration with Google Calendar and Google Maps.
+	\end{block}
 \end{frame}
 
 \begin{frame}{Further features}
