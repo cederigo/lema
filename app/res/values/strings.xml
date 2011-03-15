@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hello">This is it. ILM the real shit!</string>
-    <string name="app_name">ilm</string>
+    <string name="app_name">leMa</string>
     <string-array name="providers">
-        <item>ch.unibe.ilm.provider.UniBeDataProvider</item>
+        <item>ch.unibe.lema.provider.UniBeDataProvider</item>
     </string-array>
 </resources>
