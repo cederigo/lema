@@ -8,29 +8,29 @@ package ch.unibe.lema.provider.filter;
  */
 
 public class FilterCriterion {
-  private String key;
-  private String value;
-  private String description;
+    private String key;
+    private String value;
+    private String description;
 
-  public FilterCriterion(String key, String value, String description) {
-    this.key = key;
-    this.value = value;
-    this.description = description;
-  }
+    public FilterCriterion(String key, String value, String description) {
+        this.key = key;
+        this.value = value;
+        this.description = description;
+    }
 
-  public String getKey() {
-    return key;
-  }
-  
-  public String getValue() {
-    return value;
-  }
+    public String getKey() {
+        return key;
+    }
 
-  public String getDescription() {
-    return description;
-  }
-  
-  public String toString() {
-    return key + "=" + value;
-  }
+    public String getValue() {
+        return value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String toString() {
+        return key + "=" + value;
+    }
 }

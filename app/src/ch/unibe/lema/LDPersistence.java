@@ -12,19 +12,19 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class LDPersistence {
 
-  private SQLiteDatabase db;
+    private SQLiteDatabase db;
 
-  public LDPersistence(SQLiteDatabase inDB) {
-    db = inDB;
-    init();
-  }
+    public LDPersistence(SQLiteDatabase inDB) {
+        db = inDB;
+        init();
+    }
 
-  private void init() {
-    // check for existing tables and create them if necessary
-  }
+    private void init() {
+        // check for existing tables and create them if necessary
+    }
 
-  public void update(ILectureDataProvider provider) {
-    // sync db
-  }
+    public void update(ILectureDataProvider provider) {
+        // sync db
+    }
 
 }
