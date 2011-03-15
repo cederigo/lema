@@ -1,4 +1,4 @@
-package ch.unibe.ilm.ui;
+package ch.unibe.lema.ui;
 
 import android.app.Activity;
 

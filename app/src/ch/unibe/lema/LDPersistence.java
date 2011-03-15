@@ -1,6 +1,6 @@
-package ch.unibe.ilm;
+package ch.unibe.lema;
 
-import ch.unibe.ilm.provider.ILectureDataProvider;
+import ch.unibe.lema.provider.ILectureDataProvider;
 import android.database.sqlite.SQLiteDatabase;
 
 /**

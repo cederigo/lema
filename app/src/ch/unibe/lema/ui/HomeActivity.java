@@ -1,15 +1,15 @@
-package ch.unibe.ilm.ui;
+package ch.unibe.lema.ui;
 
 import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
-import ch.unibe.ilm.Service;
-import ch.unibe.ilm.R;
-import ch.unibe.ilm.model.Lecture;
-import ch.unibe.ilm.provider.evub.EvubDataProvider;
-import ch.unibe.ilm.provider.filter.Filter;
-import ch.unibe.ilm.provider.filter.FilterCriterion;
+import ch.unibe.lema.Service;
+import ch.unibe.lema.R;
+import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.evub.EvubDataProvider;
+import ch.unibe.lema.provider.filter.Filter;
+import ch.unibe.lema.provider.filter.FilterCriterion;
 
 public class HomeActivity extends BindingActivity {
 

@@ -1,4 +1,4 @@
-package ch.unibe.ilm;
+package ch.unibe.lema;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,9 +12,9 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
-import ch.unibe.ilm.model.Lecture;
-import ch.unibe.ilm.provider.ILectureDataProvider;
-import ch.unibe.ilm.R;
+import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.ILectureDataProvider;
+import ch.unibe.lema.R;
 
 public class Service extends android.app.Service {
 

@@ -1,9 +1,9 @@
-package ch.unibe.ilm.provider;
+package ch.unibe.lema.provider;
 
 import java.util.List;
 
-import ch.unibe.ilm.model.Lecture;
-import ch.unibe.ilm.provider.filter.Filter;
+import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.filter.Filter;
 
 public interface ILectureDataProvider {
 

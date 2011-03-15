@@ -1,4 +1,4 @@
-package ch.unibe.ilm;
+package ch.unibe.lema;
 
 import android.util.AndroidException;
 

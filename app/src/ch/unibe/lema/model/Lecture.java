@@ -1,4 +1,4 @@
-package ch.unibe.ilm.model;
+package ch.unibe.lema.model;
 
 public class Lecture {
 

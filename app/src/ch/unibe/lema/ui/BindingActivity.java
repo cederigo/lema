@@ -1,7 +1,7 @@
-package ch.unibe.ilm.ui;
+package ch.unibe.lema.ui;
 
-import ch.unibe.ilm.Service;
-import ch.unibe.ilm.Service.LocalBinder;
+import ch.unibe.lema.Service;
+import ch.unibe.lema.Service.LocalBinder;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;

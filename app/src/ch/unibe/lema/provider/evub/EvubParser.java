@@ -1,4 +1,4 @@
-package ch.unibe.ilm.provider.evub;
+package ch.unibe.lema.provider.evub;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
-import ch.unibe.ilm.model.Lecture;
+import ch.unibe.lema.model.Lecture;
 
 /**
  * @author bm

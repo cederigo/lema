@@ -1,4 +1,4 @@
-package ch.unibe.ilm.provider.evub;
+package ch.unibe.lema.provider.evub;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import org.xml.sax.XMLReader;
 
 import android.util.Log;
 
-import ch.unibe.ilm.model.Lecture;
-import ch.unibe.ilm.provider.ILectureDataProvider;
-import ch.unibe.ilm.provider.filter.Filter;
-import ch.unibe.ilm.provider.filter.FilterCriterion;
+import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.ILectureDataProvider;
+import ch.unibe.lema.provider.filter.Filter;
+import ch.unibe.lema.provider.filter.FilterCriterion;
 
 public class EvubDataProvider implements ILectureDataProvider {
 
