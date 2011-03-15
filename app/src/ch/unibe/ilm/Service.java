@@ -100,7 +100,7 @@ public class Service extends android.app.Service {
     /**
      * get data from provider specified in prefs. and insert/update
      */
-    persistence.update(ldProviders.get(prefs.myUniversity()));
+    //persistence.update(ldProviders.get(prefs.myUniversity()));
 
     return true;
   }

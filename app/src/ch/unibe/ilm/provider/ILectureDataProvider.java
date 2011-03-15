@@ -2,9 +2,8 @@ package ch.unibe.ilm.provider;
 
 import java.util.List;
 
-import ch.unibe.ilm.model.Department;
-import ch.unibe.ilm.model.Faculty;
 import ch.unibe.ilm.model.Lecture;
+import ch.unibe.ilm.provider.filter.Filter;
 
 public interface ILectureDataProvider {
 
@@ -16,12 +15,8 @@ public interface ILectureDataProvider {
    */
   public String getName();
 
-  public List<Faculty> getFaculties();
-
-  public List<Department> getDepartments();
-
-  public List<Lecture> getLectures(Department department);
-
-  public List<Lecture> getLectures(Faculty faculty);
+  public List<Lecture> getLectures(Filter filter);
+  
+  public Filter getCriterias();
 
 }

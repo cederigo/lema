@@ -1,17 +1,18 @@
 package ch.unibe.ilm.model;
 
-public interface Lecture {
+public class Lecture {
 
-  public String getName();
+  private String title;
+  
+  public void setTitle(String title) {
+    this.title = title;
+  }
+  
+  public String toString() {
+    return title;
+  }
 
-  public String getProgram();
-
-  public String getLocation();
-
-  public Faculty getFaculty();
-
-  public Department getDepartment();
-
-  public String getDescription();
-
+  public String getTitle() {
+    return title;
+  }
 }
