@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.util.Log;
+import ch.unibe.lema.LemaException;
 import ch.unibe.lema.Service;
 import ch.unibe.lema.R;
 import ch.unibe.lema.model.Lecture;
@@ -35,18 +36,24 @@ public class HomeActivity extends BindingActivity {
         filter.addCriteria(crit3);
 
         EvubDataProvider edp = new EvubDataProvider();
-        List<Lecture> lectures = edp.getLectures(filter);
-
-        Log.d(TAG_NAME, lectures.size() + " lectures found:");
-
-        for (Lecture l : lectures) {
-            Log.d(TAG_NAME, l.getTitle());
+        List<Lecture> lectures;
+        try {
+            lectures = edp.getLectures(filter);
+            Log.d(TAG_NAME, lectures.size() + " lectures found:");
+            
+            for (Lecture l : lectures) {
+                Log.d(TAG_NAME, l.getTitle());
+            }
+        } catch (LemaException e) {
+           Log.e(TAG_NAME, e.getMessage());
         }
+
     }
 
     @Override
     public void onDestroy() {
         Log.d(TAG_NAME, "onDestroy");
+        super.onDestroy();
 
         mService.shutdown();
     }
