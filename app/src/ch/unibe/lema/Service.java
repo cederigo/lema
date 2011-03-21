@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import ch.unibe.lema.model.Lecture;
 import ch.unibe.lema.provider.ILectureDataProvider;
@@ -58,7 +59,10 @@ public class Service extends android.app.Service {
     }
 
     private void handleError(LemaException e) {
+        Log.e(LOG_TAG, e.getMessage());
         // notify user..
+        Toast toast = Toast.makeText(context, "an error occured: "+e.getMessage(), Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private void initDataProviders() throws LemaException {
