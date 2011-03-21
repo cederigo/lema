@@ -2,6 +2,7 @@ package ch.unibe.lema.provider.evub;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.xml.parsers.FactoryConfigurationError;
@@ -20,6 +21,7 @@ import org.xml.sax.XMLReader;
 
 import android.util.Log;
 
+import ch.unibe.lema.LemaException;
 import ch.unibe.lema.model.Lecture;
 import ch.unibe.lema.provider.ILectureDataProvider;
 import ch.unibe.lema.provider.filter.Filter;
@@ -29,11 +31,17 @@ public class EvubDataProvider implements ILectureDataProvider {
 
     private static final String LOG_TAG = "EvubDataProvider";
     private static final String BASE_URL = "https://webapps.unibe.ch/evubs/evubs?";
-    private Filter filterCriteria;
+    private List<FilterCriterion> filterCriteria;
     private HttpClient client;
 
     public EvubDataProvider() {
-        filterCriteria = new Filter();
+        filterCriteria = new LinkedList<FilterCriterion>();
+        /*available criterions on evub*/
+        filterCriteria.add(new FilterCriterion("institution"));
+        filterCriteria.add(new FilterCriterion("person"));
+        filterCriteria.add(new FilterCriterion("semester"));
+        //more to come. maybe also add suggestions for possible values in a FilterCriterion
+        
         client = new DefaultHttpClient();
     }
 
@@ -45,8 +53,9 @@ public class EvubDataProvider implements ILectureDataProvider {
      * 
      * @param filter
      * @return
+     * @throws LemaException 
      */
-    public List<Lecture> getLectures(Filter filter) {
+    public List<Lecture> getLectures(Filter filter) throws LemaException {
         return askEvub(filter);
     }
 
@@ -54,7 +63,7 @@ public class EvubDataProvider implements ILectureDataProvider {
      * Return a Filter object containing a list of possible filter criteria for
      * this DataProvider.
      */
-    public Filter getCriterias() {
+    public List<FilterCriterion> getCriterias() {
         return filterCriteria;
     }
 
@@ -62,8 +71,9 @@ public class EvubDataProvider implements ILectureDataProvider {
      * 
      * @param filter
      * @return
+     * @throws LemaException 
      */
-    private List<Lecture> askEvub(Filter filter) {
+    private List<Lecture> askEvub(Filter filter) throws LemaException {
         HttpGet request = buildRequest(filter);
         List<Lecture> lectures = new ArrayList<Lecture>();
         SAXParser parser;
@@ -78,14 +88,14 @@ public class EvubDataProvider implements ILectureDataProvider {
             is.setEncoding("ISO-8859-1");
             xmlReader.parse(is);
 
-        } catch (ParserConfigurationException e1) {
-            e1.printStackTrace();
-        } catch (SAXException e1) {
-            e1.printStackTrace();
-        } catch (FactoryConfigurationError e1) {
-            e1.printStackTrace();
+        } catch (ParserConfigurationException e) {
+            throw new LemaException(e);
+        } catch (SAXException e) {
+            throw new LemaException(e);
+        } catch (FactoryConfigurationError e) {
+            throw new LemaException(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new LemaException(e);
         }
 
         Log.d(LOG_TAG, "got " + lectures.size() + " lectures.");

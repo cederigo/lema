@@ -17,6 +17,10 @@ public class FilterCriterion {
         this.value = value;
         this.description = description;
     }
+    
+    public FilterCriterion(String key) {
+        this(key,null,null);
+    }
 
     public String getKey() {
         return key;

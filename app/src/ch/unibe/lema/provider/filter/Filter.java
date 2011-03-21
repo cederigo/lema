@@ -16,6 +16,10 @@ public class Filter implements Iterable<FilterCriterion> {
     public Filter() {
         criteria = new ArrayList<FilterCriterion>();
     }
+    
+    public Filter(List<FilterCriterion> criteria) {
+        this.criteria = criteria;
+    }
 
     public void addCriteria(FilterCriterion criterion) {
         criteria.add(criterion);
