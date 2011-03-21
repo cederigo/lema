@@ -60,13 +60,13 @@ public class EvubDataProvider implements ILectureDataProvider {
     }
 
     /**
-     * Return a Filter object containing a list of possible filter criteria for
+     * Return  a list of possible filter criteria for
      * this DataProvider.
      */
-    public List<FilterCriterion> getCriterias() {
+    public List<FilterCriterion> getCriteria() {
         return filterCriteria;
     }
-
+    
     /**
      * 
      * @param filter

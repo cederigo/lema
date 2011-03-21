@@ -19,6 +19,6 @@ public interface ILectureDataProvider {
 
     public List<Lecture> getLectures(Filter filter) throws LemaException;
 
-    public List<FilterCriterion> getCriterias();
+    public List<FilterCriterion> getCriteria();
 
 }
