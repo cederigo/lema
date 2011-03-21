@@ -3,6 +3,7 @@ package ch.unibe.lema.ui;
 import ch.unibe.lema.Service;
 import ch.unibe.lema.Service.LocalBinder;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.util.Log;
 public abstract class BindingActivity extends Activity {
 
     private static final String TAG_NAME = "binding";
+    private ProgressDialog pDialog;
     protected Service mService;
     protected boolean mBound = false;
 
@@ -56,6 +58,26 @@ public abstract class BindingActivity extends Activity {
             unbindService(mConnection);
             mBound = false;
         }
+    }
+    
+    protected void startWait() {
+        runOnUiThread(new Runnable() {
+            public void run() {
+                pDialog = ProgressDialog.show(BindingActivity.this, "", 
+                        "Loading. Please wait...", true);
+                
+            }
+        });
+        
+        
+       
+    }
+    
+    protected void stopWait() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+        }
+        
     }
 
 }

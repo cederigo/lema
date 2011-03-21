@@ -19,35 +19,39 @@ public class HomeActivity extends BindingActivity {
     @Override
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
-
-        Log.d(TAG_NAME, "onCreate");
-
         super.onCreate(savedInstanceState);
+        Log.d(TAG_NAME, "onCreate");
         setContentView(R.layout.main);
 
         // TODO remove, only proof of concept
-        Filter filter = new Filter();
-        FilterCriterion crit = new FilterCriterion("institution", "informatik",
+        new Thread() {
+            public void run() {
+                startWait();
+                
+                Filter filter = new Filter();
+                FilterCriterion crit = new FilterCriterion("institution", "informatik",
                 "");
-        FilterCriterion crit2 = new FilterCriterion("person", "strahm", "");
-        FilterCriterion crit3 = new FilterCriterion("semester", "S2011", "");
-        filter.addCriteria(crit);
-        filter.addCriteria(crit2);
-        filter.addCriteria(crit3);
-
-        EvubDataProvider edp = new EvubDataProvider();
-        List<Lecture> lectures;
-        try {
-            lectures = edp.getLectures(filter);
-            Log.d(TAG_NAME, lectures.size() + " lectures found:");
-            
-            for (Lecture l : lectures) {
-                Log.d(TAG_NAME, l.getTitle());
+                FilterCriterion crit2 = new FilterCriterion("person", "strahm", "");
+                FilterCriterion crit3 = new FilterCriterion("semester", "S2011", "");
+                filter.addCriteria(crit);
+                filter.addCriteria(crit2);
+                filter.addCriteria(crit3);
+                
+                EvubDataProvider edp = new EvubDataProvider();
+                List<Lecture> lectures;
+                try {
+                    lectures = edp.getLectures(filter);
+                    Log.d(TAG_NAME, lectures.size() + " lectures found:");
+                    
+                    for (Lecture l : lectures) {
+                        Log.d(TAG_NAME, l.getTitle());
+                    }
+                } catch (LemaException e) {
+                    Log.e(TAG_NAME, e.getMessage());
+                }
+                stopWait();
             }
-        } catch (LemaException e) {
-           Log.e(TAG_NAME, e.getMessage());
-        }
-
+        }.start();
     }
 
     @Override
