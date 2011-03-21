@@ -51,17 +51,17 @@ public class Service extends android.app.Service {
         persistence = new LDPersistence(sqdb);
         try {
             initDataProviders();
-        } catch (ILMException e) {
+        } catch (LemaException e) {
             handleError(e);
         }
 
     }
 
-    private void handleError(ILMException e) {
+    private void handleError(LemaException e) {
         // notify user..
     }
 
-    private void initDataProviders() throws ILMException {
+    private void initDataProviders() throws LemaException {
         ldProviders = new HashMap<String, ILectureDataProvider>();
         String[] providerClassNames = res.getStringArray(R.array.providers);
         for (String className : providerClassNames) {
@@ -72,11 +72,11 @@ public class Service extends android.app.Service {
                         .newInstance();
                 ldProviders.put(provider.getName(), provider);
             } catch (ClassNotFoundException e) {
-                throw new ILMException(e);
+                throw new LemaException(e);
             } catch (InstantiationException e) {
-                throw new ILMException(e);
+                throw new LemaException(e);
             } catch (IllegalAccessException e) {
-                throw new ILMException(e);
+                throw new LemaException(e);
             }
         }
 

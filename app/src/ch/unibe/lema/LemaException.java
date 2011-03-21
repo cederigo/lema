@@ -2,15 +2,15 @@ package ch.unibe.lema;
 
 import android.util.AndroidException;
 
-public class ILMException extends AndroidException {
+public class LemaException extends AndroidException {
 
     private static final long serialVersionUID = -2211400708550607009L;
 
-    public ILMException(String name) {
+    public LemaException(String name) {
         super(name);
     }
 
-    public ILMException(Exception cause) {
+    public LemaException(Exception cause) {
         super(cause);
     }
 
