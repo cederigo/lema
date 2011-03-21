@@ -30,6 +30,7 @@ public abstract class BindingActivity extends Activity {
             LocalBinder binder = (LocalBinder) service;
             mService = binder.getService();
             mBound = true;
+            serviceAvailable();
         }
 
         public void onServiceDisconnected(ComponentName arg0) {
@@ -57,8 +58,11 @@ public abstract class BindingActivity extends Activity {
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
+            stopWait();
         }
     }
+    
+    protected abstract void serviceAvailable();
     
     protected void startWait() {
         runOnUiThread(new Runnable() {
