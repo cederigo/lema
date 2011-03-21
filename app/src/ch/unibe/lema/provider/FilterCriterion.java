@@ -1,4 +1,4 @@
-package ch.unibe.lema.provider.filter;
+package ch.unibe.lema.provider;
 
 /**
  * Represents a criteria by which lectures may be filtered.

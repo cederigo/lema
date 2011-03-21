@@ -22,10 +22,10 @@ import org.xml.sax.XMLReader;
 import android.util.Log;
 
 import ch.unibe.lema.LemaException;
-import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.Filter;
+import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.ILectureDataProvider;
-import ch.unibe.lema.provider.filter.Filter;
-import ch.unibe.lema.provider.filter.FilterCriterion;
+import ch.unibe.lema.provider.Lecture;
 
 public class EvubDataProvider implements ILectureDataProvider {
 

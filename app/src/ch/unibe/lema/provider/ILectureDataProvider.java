@@ -3,9 +3,6 @@ package ch.unibe.lema.provider;
 import java.util.List;
 
 import ch.unibe.lema.LemaException;
-import ch.unibe.lema.model.Lecture;
-import ch.unibe.lema.provider.filter.Filter;
-import ch.unibe.lema.provider.filter.FilterCriterion;
 
 public interface ILectureDataProvider {
 

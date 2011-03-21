@@ -7,7 +7,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import android.util.Log;
 
-import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.Lecture;
 
 /**
  * @author bm

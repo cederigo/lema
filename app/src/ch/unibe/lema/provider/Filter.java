@@ -1,4 +1,4 @@
-package ch.unibe.lema.provider.filter;
+package ch.unibe.lema.provider;
 
 import java.util.ArrayList;
 import java.util.Iterator;

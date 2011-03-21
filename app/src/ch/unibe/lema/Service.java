@@ -12,10 +12,10 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-import ch.unibe.lema.model.Lecture;
+import ch.unibe.lema.provider.Filter;
+import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.ILectureDataProvider;
-import ch.unibe.lema.provider.filter.Filter;
-import ch.unibe.lema.provider.filter.FilterCriterion;
+import ch.unibe.lema.provider.Lecture;
 
 public class Service extends android.app.Service {
 

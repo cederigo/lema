@@ -10,9 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
-import ch.unibe.lema.model.Lecture;
-import ch.unibe.lema.provider.filter.Filter;
-import ch.unibe.lema.provider.filter.FilterCriterion;
+import ch.unibe.lema.provider.Filter;
+import ch.unibe.lema.provider.FilterCriterion;
+import ch.unibe.lema.provider.Lecture;
 
 public class HomeActivity extends BindingActivity {
 
