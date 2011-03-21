@@ -3,6 +3,6 @@
     <string name="hello">This is it. ILM the real shit!</string>
     <string name="app_name">leMa</string>
     <string-array name="providers">
-        <item>ch.unibe.lema.provider.UniBeDataProvider</item>
+        <item>ch.unibe.lema.provider.evub.EvubDataProvider</item>
     </string-array>
 </resources>
