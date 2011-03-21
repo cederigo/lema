@@ -1,6 +1,6 @@
 package ch.unibe.lema;
 
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
@@ -12,15 +12,16 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
-
 import ch.unibe.lema.model.Lecture;
 import ch.unibe.lema.provider.ILectureDataProvider;
-import ch.unibe.lema.R;
+import ch.unibe.lema.provider.filter.Filter;
+import ch.unibe.lema.provider.filter.FilterCriterion;
 
 public class Service extends android.app.Service {
 
     private static final String LOG_TAG = "ldService";
-    private HashMap<String, ILectureDataProvider> ldProviders;
+    private List<ILectureDataProvider> ldProviders;
+    private int activeProvider;
     private LDPersistence persistence;
     private Prefs prefs;
     private Context context;
@@ -58,15 +59,11 @@ public class Service extends android.app.Service {
 
     }
 
-    private void handleError(LemaException e) {
-        Log.e(LOG_TAG, e.getMessage());
-        // notify user..
-        Toast toast = Toast.makeText(context, "an error occured: "+e.getMessage(), Toast.LENGTH_LONG);
-        toast.show();
-    }
+    
 
     private void initDataProviders() throws LemaException {
-        ldProviders = new HashMap<String, ILectureDataProvider>();
+        activeProvider=-1;
+        ldProviders = new LinkedList<ILectureDataProvider>();
         String[] providerClassNames = res.getStringArray(R.array.providers);
         for (String className : providerClassNames) {
             Log.i("ldm", "init provider: " + className);
@@ -74,7 +71,7 @@ public class Service extends android.app.Service {
                 Class providerClass = Class.forName(className);
                 ILectureDataProvider provider = (ILectureDataProvider) providerClass
                         .newInstance();
-                ldProviders.put(provider.getName(), provider);
+                ldProviders.add(provider);
             } catch (ClassNotFoundException e) {
                 throw new LemaException(e);
             } catch (InstantiationException e) {
@@ -94,39 +91,48 @@ public class Service extends android.app.Service {
     /*
      * Public API
      */
-
-    public Prefs getPrefs() {
-        return prefs;
+    
+    public String[] getProviderNames() {
+        String[] result = new String[ldProviders.size()];
+        
+        int idx = 0;
+        for(ILectureDataProvider provider : ldProviders) {
+            result[idx++] = provider.getName();
+        }
+        
+        return result;
+    }
+    
+    public void selectProvider(int idx) throws LemaException {
+        if (idx < 0 || idx >= ldProviders.size())
+            throw new LemaException("invalid provider selection: idx="+idx);
+        activeProvider = idx;
+    }
+    
+    public List<Lecture> findLectures(Filter filter) throws LemaException {
+        ILectureDataProvider provider = ldProviders.get(activeProvider);
+        return provider.getLectures(filter);
+        
+    }
+    
+    public List<FilterCriterion> getFilterCriteria() {
+        ILectureDataProvider provider = ldProviders.get(activeProvider);
+        return provider.getCriteria();
+    }
+    
+    public void handleError(LemaException e) {
+        Log.e(LOG_TAG, e.getMessage());
+        // notify user..
+        Toast toast = Toast.makeText(context, "an error occured: "+e.getMessage(), Toast.LENGTH_LONG);
+        toast.show();
+    }
+    
+    public void showInfo(String msg) {
+        Log.i(LOG_TAG, msg);
+        // notify user..
+        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
-    public boolean update() {
-
-        /**
-         * get data from provider specified in prefs. and insert/update
-         */
-        // persistence.update(ldProviders.get(prefs.myUniversity()));
-
-        return true;
-    }
-
-    public List<Lecture> getMyLectures() {
-        return null;
-    }
-
-    public void subscribe(Lecture l) {
-
-    }
-
-    public void unsubscribe(Lecture l) {
-
-    }
-
-    public void listLectures() {
-
-    }
-
-    public void shutdown() {
-
-    }
-
+    
 }
