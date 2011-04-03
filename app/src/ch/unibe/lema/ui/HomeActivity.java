@@ -49,6 +49,7 @@ public class HomeActivity extends BindingActivity {
 
     @Override
     public void onDestroy() {
+        sub.cleanUp();
         Log.d(TAG_NAME, "onDestroy");
         super.onDestroy();
 

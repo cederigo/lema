@@ -50,6 +50,11 @@ public class Subscriptions {
             subs.add(lecture);
         }
 
+        result.close();
         return subs;
+    }
+
+    public void cleanUp() {
+        db.close();
     }
 }
