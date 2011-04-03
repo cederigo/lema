@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
@@ -22,7 +21,7 @@ public class Service extends android.app.Service {
     private static final String LOG_TAG = "ldService";
     private List<ILectureDataProvider> ldProviders;
     private int activeProvider;
-    private LDPersistence persistence;
+
     private Prefs prefs;
     private Context context;
     private Resources res;
@@ -48,9 +47,7 @@ public class Service extends android.app.Service {
         SharedPreferences sprefs = context.getSharedPreferences("ilmprefs",
                 Context.MODE_PRIVATE);
         prefs = new Prefs(sprefs);
-        SQLiteDatabase sqdb = context.openOrCreateDatabase("ilmdb",
-                Context.MODE_PRIVATE, null);
-        persistence = new LDPersistence(sqdb);
+
         try {
             initDataProviders();
         } catch (LemaException e) {
@@ -63,6 +60,7 @@ public class Service extends android.app.Service {
         activeProvider = -1;
         ldProviders = new LinkedList<ILectureDataProvider>();
         String[] providerClassNames = res.getStringArray(R.array.providers);
+
         for (String className : providerClassNames) {
             Log.i("ldm", "init provider: " + className);
             try {

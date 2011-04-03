@@ -4,7 +4,7 @@ public class Lecture {
 
     private String title;
     private String number;
-    private String persons;
+    private String staff;
     private String semester;
 
     public void setTitle(String title) {
@@ -27,8 +27,8 @@ public class Lecture {
         this.number = number;
     }
 
-    public void setPersons(String persons) {
-        this.persons = persons;
+    public void setStaff(String staff) {
+        this.staff = staff;
     }
 
     public void setSemester(String semester) {
@@ -37,5 +37,9 @@ public class Lecture {
 
     public String getSemester() {
         return semester;
+    }
+
+    public String getStaff() {
+        return staff;
     }
 }

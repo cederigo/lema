@@ -41,7 +41,7 @@ public class EvubParser extends DefaultHandler {
                 inElement = false;
             } else if (currentElement.equals("persons")) {
                 String persons = new String(ch, start, length);
-                currentLecture.setPersons(persons);
+                currentLecture.setStaff(persons);
                 inElement = false;
             } else if (currentElement.equals("semester")) {
                 String semester = new String(ch, start, length);

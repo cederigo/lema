@@ -3,6 +3,7 @@ package ch.unibe.lema.ui;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
+import ch.unibe.lema.Subscriptions;
 import ch.unibe.lema.provider.Filter;
 import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.Lecture;
@@ -18,11 +20,13 @@ public class HomeActivity extends BindingActivity {
 
     private static final String TAG_NAME = "home";
     private ArrayAdapter<String> listAdapter;
+    private Subscriptions sub;
 
     @Override
     /** Called when the activity is first created. */
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Log.d(TAG_NAME, "onCreate");
         setContentView(R.layout.main);
 
@@ -31,6 +35,16 @@ public class HomeActivity extends BindingActivity {
         listAdapter = new ArrayAdapter<String>(this, R.layout.lecturelist_item);
         lectureList.setAdapter(listAdapter);
 
+        Context context = getApplicationContext();
+        sub = new Subscriptions(context);
+
+        // TODO remove, demonstration only
+        Lecture l = new Lecture();
+        l.setNumber("W1234");
+        l.setTitle("Android GUI for Dummies");
+        l.setStaff("Eric Schmidt");
+
+        sub.add(l);
     }
 
     @Override
@@ -56,7 +70,6 @@ public class HomeActivity extends BindingActivity {
 
     @Override
     protected void serviceAvailable() {
-        // TODO Auto-generated method stub
         AsyncTask<Filter, Integer, List<Lecture>> loader = new AsyncTask<Filter, Integer, List<Lecture>>() {
 
             @Override
@@ -81,21 +94,20 @@ public class HomeActivity extends BindingActivity {
             }
 
             protected void onPostExecute(final List<Lecture> result) {
+                List<Lecture> subs = sub.getAll();
 
                 listAdapter.clear();
-                for (Lecture l : result) {
+                for (Lecture l : subs) {
                     listAdapter.add(l.toString());
                 }
 
                 listAdapter.notifyDataSetChanged();
                 mService.showInfo("found " + result.size() + " lectures");
                 stopWait();
-
             }
 
         };
 
         loader.execute(sampleFilter());
     }
-
 }
