@@ -59,10 +59,8 @@ public class Service extends android.app.Service {
 
     }
 
-    
-
     private void initDataProviders() throws LemaException {
-        activeProvider=-1;
+        activeProvider = -1;
         ldProviders = new LinkedList<ILectureDataProvider>();
         String[] providerClassNames = res.getStringArray(R.array.providers);
         for (String className : providerClassNames) {
@@ -91,42 +89,43 @@ public class Service extends android.app.Service {
     /*
      * Public API
      */
-    
+
     public String[] getProviderNames() {
         String[] result = new String[ldProviders.size()];
-        
+
         int idx = 0;
-        for(ILectureDataProvider provider : ldProviders) {
+        for (ILectureDataProvider provider : ldProviders) {
             result[idx++] = provider.getName();
         }
-        
+
         return result;
     }
-    
+
     public void selectProvider(int idx) throws LemaException {
         if (idx < 0 || idx >= ldProviders.size())
-            throw new LemaException("invalid provider selection: idx="+idx);
+            throw new LemaException("invalid provider selection: idx=" + idx);
         activeProvider = idx;
     }
-    
+
     public List<Lecture> findLectures(Filter filter) throws LemaException {
         ILectureDataProvider provider = ldProviders.get(activeProvider);
         return provider.getLectures(filter);
-        
+
     }
-    
+
     public List<FilterCriterion> getFilterCriteria() {
         ILectureDataProvider provider = ldProviders.get(activeProvider);
         return provider.getCriteria();
     }
-    
+
     public void handleError(LemaException e) {
         Log.e(LOG_TAG, e.getMessage());
         // notify user..
-        Toast toast = Toast.makeText(context, "an error occured: "+e.getMessage(), Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(context,
+                "an error occured: " + e.getMessage(), Toast.LENGTH_LONG);
         toast.show();
     }
-    
+
     public void showInfo(String msg) {
         Log.i(LOG_TAG, msg);
         // notify user..
@@ -134,5 +133,4 @@ public class Service extends android.app.Service {
         toast.show();
     }
 
-    
 }

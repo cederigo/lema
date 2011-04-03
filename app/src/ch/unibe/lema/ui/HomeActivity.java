@@ -25,13 +25,12 @@ public class HomeActivity extends BindingActivity {
         super.onCreate(savedInstanceState);
         Log.d(TAG_NAME, "onCreate");
         setContentView(R.layout.main);
-        
-        /*setup list*/
-        final ListView  lectureList = (ListView)findViewById(R.id.lectureList);
+
+        /* setup list */
+        final ListView lectureList = (ListView) findViewById(R.id.lectureList);
         listAdapter = new ArrayAdapter<String>(this, R.layout.lecturelist_item);
         lectureList.setAdapter(listAdapter);
-        
-        
+
     }
 
     @Override
@@ -40,17 +39,18 @@ public class HomeActivity extends BindingActivity {
         super.onDestroy();
 
     }
-    
+
     private Filter sampleFilter() {
-        /*TODO interactive filter creation*/
+        /* TODO interactive filter creation */
         Filter filter = new Filter();
-        FilterCriterion crit = new FilterCriterion("institution", "informatik","");
-        //FilterCriterion crit2 = new FilterCriterion("person", "strahm", "");
+        FilterCriterion crit = new FilterCriterion("institution", "informatik",
+                "");
+        // FilterCriterion crit2 = new FilterCriterion("person", "strahm", "");
         FilterCriterion crit3 = new FilterCriterion("semester", "S2011", "");
         filter.addCriteria(crit);
-        //filter.addCriteria(crit2);
+        // filter.addCriteria(crit2);
         filter.addCriteria(crit3);
-        
+
         return filter;
     }
 
@@ -61,38 +61,38 @@ public class HomeActivity extends BindingActivity {
 
             @Override
             protected List<Lecture> doInBackground(Filter... filters) {
-                
+
                 List<Lecture> result = null;
-                
+
                 if (filters.length == 1) {
                     startWait();
-                    //TODO interactive provider selection
+                    // TODO interactive provider selection
                     try {
                         mService.selectProvider(0);
                         result = mService.findLectures(filters[0]);
                     } catch (LemaException e) {
                         mService.handleError(e);
                     }
-                    
+
                     return result;
                 }
-                //return empty list
+                // return empty list
                 return new LinkedList<Lecture>();
             }
-            
+
             protected void onPostExecute(final List<Lecture> result) {
-               
+
                 listAdapter.clear();
                 for (Lecture l : result) {
-                    listAdapter.add(l.getTitle());
+                    listAdapter.add(l.toString());
                 }
-                
+
                 listAdapter.notifyDataSetChanged();
                 mService.showInfo("found " + result.size() + " lectures");
                 stopWait();
-                
+
             }
-            
+
         };
 
         loader.execute(sampleFilter());

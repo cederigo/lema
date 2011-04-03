@@ -5,8 +5,6 @@ import java.util.List;
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
-import android.util.Log;
-
 import ch.unibe.lema.provider.Lecture;
 
 /**
@@ -28,11 +26,26 @@ public class EvubParser extends DefaultHandler {
         inElement = false;
     }
 
+    /**
+     * Java needs switch-case with Strings NOW
+     */
     public void characters(char[] ch, int start, int length) {
         if (inElement) {
             if (currentElement.equals("lecture_title")) {
                 String title = new String(ch, start, length);
                 currentLecture.setTitle(title);
+                inElement = false;
+            } else if (currentElement.equals("number")) {
+                String number = new String(ch, start, length);
+                currentLecture.setNumber(number);
+                inElement = false;
+            } else if (currentElement.equals("persons")) {
+                String persons = new String(ch, start, length);
+                currentLecture.setPersons(persons);
+                inElement = false;
+            } else if (currentElement.equals("semester")) {
+                String semester = new String(ch, start, length);
+                currentLecture.setSemester(semester);
                 inElement = false;
             }
         }

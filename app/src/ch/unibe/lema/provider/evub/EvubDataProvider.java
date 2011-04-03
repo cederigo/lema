@@ -11,7 +11,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -20,7 +19,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 import android.util.Log;
-
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.provider.Filter;
 import ch.unibe.lema.provider.FilterCriterion;
@@ -36,12 +34,13 @@ public class EvubDataProvider implements ILectureDataProvider {
 
     public EvubDataProvider() {
         filterCriteria = new LinkedList<FilterCriterion>();
-        /*available criterions on evub*/
+        /* available criterions on evub */
         filterCriteria.add(new FilterCriterion("institution"));
         filterCriteria.add(new FilterCriterion("person"));
         filterCriteria.add(new FilterCriterion("semester"));
-        //more to come. maybe also add suggestions for possible values in a FilterCriterion
-        
+        // more to come. maybe also add suggestions for possible values in a
+        // FilterCriterion
+
         client = new DefaultHttpClient();
     }
 
@@ -53,25 +52,24 @@ public class EvubDataProvider implements ILectureDataProvider {
      * 
      * @param filter
      * @return
-     * @throws LemaException 
+     * @throws LemaException
      */
     public List<Lecture> getLectures(Filter filter) throws LemaException {
         return askEvub(filter);
     }
 
     /**
-     * Return  a list of possible filter criteria for
-     * this DataProvider.
+     * Return a list of possible filter criteria for this DataProvider.
      */
     public List<FilterCriterion> getCriteria() {
         return filterCriteria;
     }
-    
+
     /**
      * 
      * @param filter
      * @return
-     * @throws LemaException 
+     * @throws LemaException
      */
     private List<Lecture> askEvub(Filter filter) throws LemaException {
         HttpGet request = buildRequest(filter);
