@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
@@ -19,7 +21,7 @@ import ch.unibe.lema.provider.Lecture;
 public class HomeActivity extends BindingActivity {
 
     private static final String TAG_NAME = "home";
-    private ArrayAdapter<String> listAdapter;
+    private LectureListAdapter listAdapter;
     private Subscriptions sub;
 
     @Override
@@ -31,8 +33,8 @@ public class HomeActivity extends BindingActivity {
         setContentView(R.layout.main);
 
         /* setup list */
-        final ListView lectureList = (ListView) findViewById(R.id.lectureList);
-        listAdapter = new ArrayAdapter<String>(this, R.layout.lecturelist_item);
+        final ListView lectureList = (ListView) findViewById(R.id.lecturelist);
+        listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>());
         lectureList.setAdapter(listAdapter);
 
         Context context = getApplicationContext();
@@ -98,8 +100,8 @@ public class HomeActivity extends BindingActivity {
                 List<Lecture> subs = sub.getAll();
 
                 listAdapter.clear();
-                for (Lecture l : subs) {
-                    listAdapter.add(l.toString());
+                for (Lecture l : result) {
+                    listAdapter.add(l);
                 }
 
                 listAdapter.notifyDataSetChanged();
