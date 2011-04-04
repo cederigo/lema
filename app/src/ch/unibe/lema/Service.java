@@ -22,7 +22,6 @@ public class Service extends android.app.Service {
     private List<ILectureDataProvider> ldProviders;
     private int activeProvider;
 
-    private Prefs prefs;
     private Context context;
     private Resources res;
     // Binder given to clients
@@ -46,7 +45,7 @@ public class Service extends android.app.Service {
         res = context.getResources();
         SharedPreferences sprefs = context.getSharedPreferences("ilmprefs",
                 Context.MODE_PRIVATE);
-        prefs = new Prefs(sprefs);
+        
 
         try {
             initDataProviders();
