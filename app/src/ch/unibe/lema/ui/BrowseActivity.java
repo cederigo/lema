@@ -89,21 +89,4 @@ public class BrowseActivity extends BindingActivity {
 
         loader.execute(sampleFilter());
     }
-
-    protected void startWait() {
-        runOnUiThread(new Runnable() {
-
-            public void run() {
-                pDialog = ProgressDialog.show(BrowseActivity.this, "",
-                        "Loading. Please wait...", true);
-
-            }
-        });
-    }
-
-    protected void stopWait() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-        }
-    }
 }
