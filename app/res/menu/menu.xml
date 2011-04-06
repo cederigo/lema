@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/group1">
+        <item android:title="Subscriptions" android:titleCondensed="Subscriptions" android:id="@+id/item_subscriptions"></item>
+        <item android:title="Browse" android:titleCondensed="Browse" android:id="@+id/item_browse"></item>
+    </group>
+</menu>

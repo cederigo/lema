@@ -1,7 +1,5 @@
 package ch.unibe.lema.ui;
 
-import ch.unibe.lema.Service;
-import ch.unibe.lema.Service.LocalBinder;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -11,6 +9,12 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import ch.unibe.lema.R;
+import ch.unibe.lema.Service;
+import ch.unibe.lema.Service.LocalBinder;
 
 public abstract class BindingActivity extends Activity {
 
@@ -61,27 +65,48 @@ public abstract class BindingActivity extends Activity {
             stopWait();
         }
     }
-    
+
     protected abstract void serviceAvailable();
-    
+
     protected void startWait() {
         runOnUiThread(new Runnable() {
             public void run() {
-                pDialog = ProgressDialog.show(BindingActivity.this, "", 
+                pDialog = ProgressDialog.show(BindingActivity.this, "",
                         "Loading. Please wait...", true);
-                
+
             }
         });
-        
-        
-       
     }
-    
+
     protected void stopWait() {
         if (pDialog != null) {
             pDialog.dismiss();
         }
-        
+
     }
 
+    /**
+     * Options menu
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.item_browse:
+            Intent browse = new Intent(getBaseContext(), BrowseActivity.class);
+            startActivity(browse);
+            return true;
+        case R.id.item_subscriptions:
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }

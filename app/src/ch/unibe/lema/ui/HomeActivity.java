@@ -4,18 +4,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
 import ch.unibe.lema.Subscriptions;
-import ch.unibe.lema.provider.Filter;
-import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.Lecture;
 
 public class HomeActivity extends BindingActivity {
@@ -54,63 +47,19 @@ public class HomeActivity extends BindingActivity {
         sub.cleanUp();
         Log.d(TAG_NAME, "onDestroy");
         super.onDestroy();
-
-    }
-
-    private Filter sampleFilter() {
-        /* TODO interactive filter creation */
-        Filter filter = new Filter();
-        FilterCriterion crit = new FilterCriterion("institution", "informatik",
-                "");
-        // FilterCriterion crit2 = new FilterCriterion("person", "strahm", "");
-        FilterCriterion crit3 = new FilterCriterion("semester", "S2011", "");
-        filter.addCriteria(crit);
-        // filter.addCriteria(crit2);
-        filter.addCriteria(crit3);
-
-        return filter;
     }
 
     @Override
     protected void serviceAvailable() {
-        AsyncTask<Filter, Integer, List<Lecture>> loader = new AsyncTask<Filter, Integer, List<Lecture>>() {
+        List<Lecture> subs = sub.getAll();
 
-            @Override
-            protected List<Lecture> doInBackground(Filter... filters) {
+        listAdapter.clear();
+        for (Lecture l : subs) {
+            listAdapter.add(l);
+        }
 
-                List<Lecture> result = null;
-
-                if (filters.length == 1) {
-                    startWait();
-                    // TODO interactive provider selection
-                    try {
-                        mService.selectProvider(0);
-                        result = mService.findLectures(filters[0]);
-                    } catch (LemaException e) {
-                        mService.handleError(e);
-                    }
-
-                    return result;
-                }
-                // return empty list
-                return new LinkedList<Lecture>();
-            }
-
-            protected void onPostExecute(final List<Lecture> result) {
-                List<Lecture> subs = sub.getAll();
-
-                listAdapter.clear();
-                for (Lecture l : result) {
-                    listAdapter.add(l);
-                }
-
-                listAdapter.notifyDataSetChanged();
-                mService.showInfo("found " + result.size() + " lectures");
-                stopWait();
-            }
-
-        };
-
-        loader.execute(sampleFilter());
+        listAdapter.notifyDataSetChanged();
+        mService.showInfo(subs.size() + " subscriptions");
+        stopWait();
     }
 }
