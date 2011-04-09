@@ -104,6 +104,8 @@ public abstract class BindingActivity extends Activity {
             startActivity(browse);
             return true;
         case R.id.item_subscriptions:
+            Intent home = new Intent(getBaseContext(),HomeActivity.class);
+            startActivity(home);
             return true;
         default:
             return super.onOptionsItemSelected(item);

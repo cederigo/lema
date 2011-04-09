@@ -26,7 +26,7 @@ public class HomeActivity extends BindingActivity {
         setContentView(R.layout.main);
 
         /* setup list */
-        final ListView lectureList = (ListView) findViewById(R.id.lecturelist);
+        final ListView lectureList = (ListView) findViewById(R.id.home_lecturelist);
         listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>());
         lectureList.setAdapter(listAdapter);
 
