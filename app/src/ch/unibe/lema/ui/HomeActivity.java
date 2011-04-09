@@ -15,7 +15,7 @@ public class HomeActivity extends BindingActivity {
 
     private static final String TAG_NAME = "home";
     private LectureListAdapter listAdapter;
-    private Subscriptions sub;
+    
 
     @Override
     /** Called when the activity is first created. */
@@ -30,28 +30,18 @@ public class HomeActivity extends BindingActivity {
         listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>());
         lectureList.setAdapter(listAdapter);
 
-        Context context = getApplicationContext();
-        sub = new Subscriptions(context);
-
-        // TODO remove, demonstration only
-        Lecture l = new Lecture();
-        l.setNumber("W1234");
-        l.setTitle("Android GUI for Dummies");
-        l.setStaff("Eric Schmidt");
-
-        sub.add(l);
     }
 
     @Override
     public void onDestroy() {
-        sub.cleanUp();
+        
         Log.d(TAG_NAME, "onDestroy");
         super.onDestroy();
     }
 
     @Override
     protected void serviceAvailable() {
-        List<Lecture> subs = sub.getAll();
+        List<Lecture> subs = mService.getSubscriptions();
 
         listAdapter.clear();
         for (Lecture l : subs) {

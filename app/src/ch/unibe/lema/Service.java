@@ -18,8 +18,9 @@ import ch.unibe.lema.provider.Lecture;
 
 public class Service extends android.app.Service {
 
-    private static final String LOG_TAG = "ldService";
+    private static final String LOG_TAG = "LeMaService";
     private List<ILectureDataProvider> ldProviders;
+    private Subscriptions sub;
     private int activeProvider;
 
     private Context context;
@@ -43,8 +44,7 @@ public class Service extends android.app.Service {
         Log.d(LOG_TAG, "onCreate");
         context = getApplicationContext();
         res = context.getResources();
-        SharedPreferences sprefs = context.getSharedPreferences("ilmprefs",
-                Context.MODE_PRIVATE);
+        sub = new Subscriptions(context);
         
 
         try {
@@ -54,6 +54,14 @@ public class Service extends android.app.Service {
         }
 
     }
+    
+    public void onDestroy() {
+        super.onDestroy();
+        sub.cleanUp();
+        Log.d(LOG_TAG, "onDestroy");
+    }
+    
+    
 
     private void initDataProviders() throws LemaException {
         activeProvider = -1;
@@ -113,6 +121,18 @@ public class Service extends android.app.Service {
     public List<FilterCriterion> getFilterCriteria() {
         ILectureDataProvider provider = ldProviders.get(activeProvider);
         return provider.getCriteria();
+    }
+    
+    public List<Lecture> getSubscriptions() {
+        return sub.getAll();
+    }
+    
+    public void subscribe(Lecture l) {
+        sub.add(l);
+    }
+    
+    public void unsubscribe(Lecture l) {
+        sub.unsubscribe(-1);
     }
 
     public void handleError(LemaException e) {
