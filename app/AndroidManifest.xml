@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       android:versionCode="1"
       android:versionName="1.0" package="ch.unibe.lema">
-<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-
+    
+    <!-- Permissios -->
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
         <activity android:name=".ui.HomeActivity"
@@ -14,7 +15,16 @@
             </intent-filter>
         </activity>
         <service android:name="Service"></service>
-        <activity android:name=".ui.BrowseActivity" android:label="Browse"></activity>
-
+        <!-- Browse Activity with search functionality -->
+        <activity android:name=".ui.BrowseActivity" android:label="Browse">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable"
+               android:resource="@xml/searchable"/>
+        </activity>
+        <!-- Lecture Details Activity -->
+        <activity android:name=".ui.LectureActivity" android:label="Lecture Details">
+        </activity>
     </application>
 </manifest>

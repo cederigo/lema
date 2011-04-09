@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">leMa</string>
+    <string name="search_hint">search for lectures..</string>
+    
     <string-array name="providers">
         <item>ch.unibe.lema.provider.evub.EvubDataProvider</item>
     </string-array>
