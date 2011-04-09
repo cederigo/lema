@@ -4,5 +4,7 @@
     <group android:id="@+id/group1">
         <item android:title="Subscriptions" android:titleCondensed="Subscriptions" android:id="@+id/item_subscriptions"></item>
         <item android:title="Browse" android:titleCondensed="Browse" android:id="@+id/item_browse"></item>
+        <item android:title="Search" android:titleCondensed="Search" android:id="@+id/item_search"></item>
     </group>
+    <item android:id="@+id/item1"></item>
 </menu>

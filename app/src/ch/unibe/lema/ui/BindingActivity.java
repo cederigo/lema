@@ -6,7 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
@@ -42,10 +41,6 @@ public abstract class BindingActivity extends Activity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected void onStart() {
@@ -66,6 +61,9 @@ public abstract class BindingActivity extends Activity {
         }
     }
 
+    /**
+     * callback when service is available
+     */
     protected abstract void serviceAvailable();
 
     protected void startWait() {
@@ -106,6 +104,9 @@ public abstract class BindingActivity extends Activity {
         case R.id.item_subscriptions:
             Intent home = new Intent(getBaseContext(),HomeActivity.class);
             startActivity(home);
+            return true;
+        case R.id.item_search:
+            onSearchRequested();
             return true;
         default:
             return super.onOptionsItemSelected(item);
