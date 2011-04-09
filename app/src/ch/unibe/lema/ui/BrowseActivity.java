@@ -3,7 +3,6 @@ package ch.unibe.lema.ui;
 import java.util.LinkedList;
 import java.util.List;
 
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,11 +23,7 @@ public class BrowseActivity extends BindingActivity {
     private static final String TAG_NAME = "Browse";
     private LectureListAdapter listAdapter;
     
-    
-    private final AsyncTask<Filter, Integer, List<Lecture>> loader = 
-        new AsyncTask<Filter, Integer, List<Lecture>>() {
-
-        @Override
+    private final class LectureLoadAsyncTask extends AsyncTask<Filter, Integer, List<Lecture>> {
         protected List<Lecture> doInBackground(Filter... filters) {
 
             List<Lecture> result = null;
@@ -61,23 +56,15 @@ public class BrowseActivity extends BindingActivity {
             stopWait();
         }
 
-    };
-
+    }
+    
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG_NAME, "onCreate");
         setContentView(R.layout.browse);
         
-        // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.i(TAG_NAME, "search: "+query);
-            if (mBound) {
-                loader.execute(buildFilter(query));
-            }
-        }
+        
 
         /* setup list */
         final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
@@ -124,6 +111,16 @@ public class BrowseActivity extends BindingActivity {
     }
 
     protected void serviceAvailable() {
-        loader.execute(defaultFilter());
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            Log.i(TAG_NAME, "search: "+query);
+            new LectureLoadAsyncTask().execute(buildFilter(query));
+            
+        } else {            
+            new LectureLoadAsyncTask().execute(defaultFilter());
+        }
+        
     }
 }
