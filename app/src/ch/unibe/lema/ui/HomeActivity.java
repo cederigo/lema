@@ -3,8 +3,12 @@ package ch.unibe.lema.ui;
 import java.util.LinkedList;
 import java.util.List;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import ch.unibe.lema.R;
 import ch.unibe.lema.provider.Lecture;
@@ -37,6 +41,17 @@ public class HomeActivity extends BindingActivity {
         listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>(),
                 mService);
         lectureList.setAdapter(listAdapter);
+        lectureList.setOnItemClickListener(new OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+
+                Intent intent = new Intent(getBaseContext(),
+                        LectureActivity.class);
+                intent.putExtra("lecture", listAdapter.getItem(position));
+                startActivityForResult(intent, 1);
+            }
+        });
 
         List<Lecture> subs = mService.getSubscriptions();
 

@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-import android.widget.Toast;
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
 import ch.unibe.lema.provider.Filter;
@@ -22,6 +21,7 @@ import ch.unibe.lema.provider.Lecture;
 public class BrowseActivity extends BindingActivity {
     private static final String TAG_NAME = "Browse";
     private LectureListAdapter listAdapter;
+    private boolean populated = false;
 
     private final class LectureLoadAsyncTask extends
             AsyncTask<Filter, Integer, List<Lecture>> {
@@ -94,33 +94,41 @@ public class BrowseActivity extends BindingActivity {
         return filter;
     }
 
+    protected void onResume() {
+        super.onResume();
+
+    }
+
     protected void serviceAvailable() {
         /* setup list */
-        final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
-        listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>(),
-                mService);
-        lectureList.setAdapter(listAdapter);
-        lectureList.setOnItemClickListener(new OnItemClickListener() {
+        if (!populated) {
+            final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
+            listAdapter = new LectureListAdapter(this,
+                    new LinkedList<Lecture>(), mService);
+            lectureList.setAdapter(listAdapter);
+            lectureList.setOnItemClickListener(new OnItemClickListener() {
 
-            public void onItemClick(AdapterView<?> parent, View view,
-                    int position, long id) {
+                public void onItemClick(AdapterView<?> parent, View view,
+                        int position, long id) {
 
-                Intent intent = new Intent(getBaseContext(), LectureActivity.class);
-                intent.putExtra("lecture", listAdapter.getItem(position));
-                startActivity(intent);
+                    Intent intent = new Intent(getBaseContext(),
+                            LectureActivity.class);
+                    intent.putExtra("lecture", listAdapter.getItem(position));
+                    startActivityForResult(intent, 1);
+                }
+            });
+
+            // Get the intent, verify the action and get the query
+            Intent intent = getIntent();
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                String query = intent.getStringExtra(SearchManager.QUERY);
+                Log.i(TAG_NAME, "search: " + query);
+                new LectureLoadAsyncTask().execute(buildFilter(query));
+
+            } else {
+                new LectureLoadAsyncTask().execute(defaultFilter());
             }
-        });
-        
-        // Get the intent, verify the action and get the query
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.i(TAG_NAME, "search: " + query);
-            new LectureLoadAsyncTask().execute(buildFilter(query));
-
-        } else {
-            new LectureLoadAsyncTask().execute(defaultFilter());
+            populated = true;
         }
-
     }
 }

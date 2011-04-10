@@ -51,4 +51,9 @@ public class LectureActivity extends BindingActivity {
 
     }
 
+    protected void onStop() {
+        super.onStop();
+        setResult(RESULT_OK);
+        finish();
+    }
 }
