@@ -100,8 +100,12 @@ public class LectureListAdapter extends BaseAdapter {
         holder.icon.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
+                // TODO refactor duplicated code
                 if (l.isSubscription()) {
-                    service.unsubscribe(l);
+                    Lecture replacement = service.unsubscribe(l);
+                    lectureList.set(index, replacement);
+                    notifyDataSetChanged();
+
                     service.showInfo("Unsubscribed from " + l.getTitle());
                     ImageView icon = (ImageView) v
                             .findViewById(R.id.lecturelistitem_icon);

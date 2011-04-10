@@ -55,21 +55,21 @@ public class EvubParser extends DefaultHandler {
                 String desc = new String(ch, start, length);
                 currentLecture.setDescription(desc);
             } else if (currentElement.equals("ects")) {
-                int ects = 0;
+                float ects = 0;
                 try {
-                    Integer.parseInt(new String(ch, start, length));
+                    ects = Float.parseFloat(new String(ch, start, length));
                 } catch (NumberFormatException e) {
                     Log.d(LOG_TAG, "no ECTS provided");
                 }
                 currentLecture.setEcts(ects);
             } else if (currentElement.equals("date_start")) {
-                dateStart = new String(ch, start, length);
+                dateStart = new String(ch, start, length).trim();
             } else if (currentElement.equals("date_end")) {
-                dateEnd = new String(ch, start, length);
+                dateEnd = new String(ch, start, length).trim();
             } else if (currentElement.equals("time_start")) {
-                timeStart = new String(ch, start, length);
+                timeStart = new String(ch, start, length).trim();
             } else if (currentElement.equals("time_end")) {
-                timeEnd = new String(ch, start, length);
+                timeEnd = new String(ch, start, length).trim();
             }
 
             inElement = false;
@@ -82,6 +82,7 @@ public class EvubParser extends DefaultHandler {
             currentLecture = new Lecture();
             inElement = false;
             currentElement = "";
+            eventsRecorded = 0;
         } else if (localName.equals("event") && eventsRecorded == 0) {
             Time start = dateFromString(dateStart, timeStart);
             Time end = dateFromString(dateEnd, timeEnd);
@@ -107,13 +108,15 @@ public class EvubParser extends DefaultHandler {
      * Return a Time object which hopefully is equal to what is specified by
      * parameters. Format assumptions: date: DD.MM.YYYY, time: HH:MM
      * 
+     * TODO parse if only date or time is given
+     * 
      * @param date
      * @param time
      * @return
      */
     private Time dateFromString(String date, String time) {
         String full = date.concat(time);
-
+        Log.d(LOG_TAG, "full: " + full);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH:mm");
 
         Time t = new Time();

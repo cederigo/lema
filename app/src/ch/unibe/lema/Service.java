@@ -127,8 +127,8 @@ public class Service extends android.app.Service {
         return sub.add(l);
     }
 
-    public void unsubscribe(Lecture l) {
-        sub.remove(l);
+    public Lecture unsubscribe(Lecture l) {
+        return sub.remove(l);
     }
 
     public void handleError(LemaException e) {

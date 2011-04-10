@@ -11,15 +11,18 @@ public class Lecture implements Parcelable {
     private String staff;
     private String semester;
     private String description;
-    private int ects;
+    private float ects;
     private Time start, end;
     private Long id;
 
     public Lecture() {
         id = -1L;
+        start = new Time();
+        end = new Time();
     }
 
     public Lecture(long id) {
+        this();
         this.id = id;
     }
 
@@ -31,6 +34,8 @@ public class Lecture implements Parcelable {
         this.semester = copy.getSemester();
         this.description = copy.getDescription();
         this.ects = copy.getEcts();
+        this.start = copy.getTimeStart();
+        this.end = copy.getTimeEnd();
     }
 
     public Lecture(Parcel in) {
@@ -40,6 +45,11 @@ public class Lecture implements Parcelable {
         staff = in.readString();
         semester = in.readString();
         description = in.readString();
+        ects = in.readFloat();
+        start = new Time();
+        start.set(in.readLong());
+        end = new Time();
+        end.set(in.readLong());
     }
 
     public boolean isSubscription() {
@@ -90,11 +100,11 @@ public class Lecture implements Parcelable {
         return staff;
     }
 
-    public void setEcts(int ects) {
+    public void setEcts(float ects) {
         this.ects = ects;
     }
 
-    public int getEcts() {
+    public float getEcts() {
         return ects;
     }
 
@@ -136,6 +146,9 @@ public class Lecture implements Parcelable {
         dest.writeString(staff);
         dest.writeString(semester);
         dest.writeString(description);
+        dest.writeFloat(ects);
+        dest.writeLong(start.toMillis(false));
+        dest.writeLong(end.toMillis(false));
     }
 
     public static final Parcelable.Creator<Lecture> CREATOR = new Parcelable.Creator<Lecture>() {

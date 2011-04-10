@@ -39,8 +39,9 @@ public class Subscriptions {
         return new Lecture(lecture, id);
     }
 
-    public void remove(Lecture l) {
+    public Lecture remove(Lecture l) {
         db.delete(TABLE_NAME, KEY_COLUMN + "=" + l.getId(), null);
+        return new Lecture(l, -1);
     }
 
     public List<Lecture> getAll() {
