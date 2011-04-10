@@ -29,6 +29,7 @@ public class Lecture implements Parcelable {
         number = in.readString();
         staff = in.readString();
         semester = in.readString();
+        description = in.readString();
     }
 
     public boolean isSubscription() {
@@ -124,6 +125,7 @@ public class Lecture implements Parcelable {
         dest.writeString(number);
         dest.writeString(staff);
         dest.writeString(semester);
+        dest.writeString(description);
     }
 
     public static final Parcelable.Creator<Lecture> CREATOR = new Parcelable.Creator<Lecture>() {

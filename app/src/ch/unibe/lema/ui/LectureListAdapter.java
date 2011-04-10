@@ -44,17 +44,14 @@ public class LectureListAdapter extends BaseAdapter {
         inflater = LayoutInflater.from(ctx);
         this.context = ctx;
         this.service = service;
-        if (service == null) {
-            Log.e(LOG_TAG, "service null");
-        }
     }
 
     public int getCount() {
         return lectureList.size();
     }
 
-    public Object getItem(int position) {
-        return position;
+    public Lecture getItem(int position) {
+        return lectureList.get(position);
     }
 
     /**
@@ -104,7 +101,7 @@ public class LectureListAdapter extends BaseAdapter {
 
             public void onClick(View v) {
                 service.subscribe(l);
-                Toast.makeText(context, "Subscribed to " + l.getTitle(), 5);
+                service.showInfo("Subscribed to " + l.getTitle());
             }
         });
 

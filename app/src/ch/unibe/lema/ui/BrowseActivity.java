@@ -105,10 +105,12 @@ public class BrowseActivity extends BindingActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                     int position, long id) {
 
-                Toast.makeText(getBaseContext(), "position: " + position
-                        + " clicked. view: " + view, 5);
+                Intent intent = new Intent(getBaseContext(), LectureActivity.class);
+                intent.putExtra("lecture", listAdapter.getItem(position));
+                startActivity(intent);
             }
         });
+        
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

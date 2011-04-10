@@ -35,8 +35,14 @@ public class LectureActivity extends BindingActivity {
         }
 
         Log.i(TAG_NAME, "show " + mLecture.getNumber());
+        TextView numberView = (TextView) findViewById(R.id.lecture_number);
+        numberView.setText(mLecture.getNumber());
         TextView titleView = (TextView) findViewById(R.id.lecture_title);
         titleView.setText(mLecture.getTitle());
+        TextView staffView = (TextView) findViewById(R.id.lecture_staff);
+        staffView.setText(mLecture.getStaff());
+        TextView descView = (TextView) findViewById(R.id.lecture_desc);
+        descView.setText(mLecture.getDescription());
     }
 
     @Override
