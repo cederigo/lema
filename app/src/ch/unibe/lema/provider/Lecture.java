@@ -23,6 +23,16 @@ public class Lecture implements Parcelable {
         this.id = id;
     }
 
+    public Lecture(Lecture copy, long id) {
+        this.id = id;
+        this.number = copy.getNumber();
+        this.title = copy.getTitle();
+        this.staff = copy.getStaff();
+        this.semester = copy.getSemester();
+        this.description = copy.getDescription();
+        this.ects = copy.getEcts();
+    }
+
     public Lecture(Parcel in) {
         id = in.readLong();
         title = in.readString();
@@ -138,5 +148,9 @@ public class Lecture implements Parcelable {
         }
 
     };
+
+    public long getId() {
+        return id;
+    }
 
 }

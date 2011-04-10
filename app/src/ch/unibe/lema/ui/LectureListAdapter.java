@@ -3,7 +3,6 @@ package ch.unibe.lema.ui;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import ch.unibe.lema.R;
 import ch.unibe.lema.Service;
 import ch.unibe.lema.provider.Lecture;
@@ -88,6 +86,7 @@ public class LectureListAdapter extends BaseAdapter {
         }
 
         final Lecture l = lectureList.get(position);
+
         holder.title.setText(l.getTitle());
         holder.details.setText(l.getStaff());
 
@@ -97,11 +96,27 @@ public class LectureListAdapter extends BaseAdapter {
             holder.icon.setImageResource(android.R.drawable.star_big_off);
         }
 
+        final int index = position;
         holder.icon.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
-                service.subscribe(l);
-                service.showInfo("Subscribed to " + l.getTitle());
+                if (l.isSubscription()) {
+                    service.unsubscribe(l);
+                    service.showInfo("Unsubscribed from " + l.getTitle());
+                    ImageView icon = (ImageView) v
+                            .findViewById(R.id.lecturelistitem_icon);
+                    icon.setImageResource(android.R.drawable.star_big_off);
+                } else {
+                    Lecture replacement = service.subscribe(l);
+                    lectureList.set(index, replacement);
+                    notifyDataSetChanged();
+
+                    service.showInfo("Subscribed to " + l.getTitle());
+                    ImageView icon = (ImageView) v
+                            .findViewById(R.id.lecturelistitem_icon);
+                    icon.setImageResource(android.R.drawable.star_big_on);
+                }
+
             }
         });
 

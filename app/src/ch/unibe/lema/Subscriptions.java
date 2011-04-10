@@ -26,20 +26,21 @@ public class Subscriptions {
         db = new Storage(context).getWritableDatabase();
     }
 
-    public void add(Lecture lecture) {
+    public Lecture add(Lecture lecture) {
         ContentValues values = new ContentValues();
 
         values.put(INSERT_COLUMNS[0], lecture.getNumber());
         values.put(INSERT_COLUMNS[1], lecture.getTitle());
         values.put(INSERT_COLUMNS[2], lecture.getStaff());
 
-        db.insert(TABLE_NAME, null, values);
+        long id = db.insert(TABLE_NAME, null, values);
 
         Log.d(LOG_TAG, "Subscribed to " + lecture.getTitle());
+        return new Lecture(lecture, id);
     }
 
-    public void unsubscribe(long lectureId) {
-        db.delete(TABLE_NAME, KEY_COLUMN + "=" + lectureId, null);
+    public void remove(Lecture l) {
+        db.delete(TABLE_NAME, KEY_COLUMN + "=" + l.getId(), null);
     }
 
     public List<Lecture> getAll() {

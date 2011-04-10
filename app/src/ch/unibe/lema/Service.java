@@ -123,12 +123,12 @@ public class Service extends android.app.Service {
         return sub.getAll();
     }
 
-    public void subscribe(Lecture l) {
-        sub.add(l);
+    public Lecture subscribe(Lecture l) {
+        return sub.add(l);
     }
 
     public void unsubscribe(Lecture l) {
-        sub.unsubscribe(-1);
+        sub.remove(l);
     }
 
     public void handleError(LemaException e) {
