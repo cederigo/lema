@@ -1,10 +1,14 @@
 package ch.unibe.lema.provider.evub;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
 
+import android.text.format.Time;
+import android.util.Log;
 import ch.unibe.lema.provider.Lecture;
 
 /**
@@ -17,37 +21,58 @@ public class EvubParser extends DefaultHandler {
 
     private List<Lecture> lectures;
     private Lecture currentLecture;
-    private String currentElement;
+    private Time start, end;
+    private String currentElement, timeStart, timeEnd, dateStart, dateEnd;
     private boolean inElement;
+    private int eventsRecorded;
 
     public EvubParser(List<Lecture> lectures) {
         this.lectures = lectures;
         this.currentLecture = new Lecture();
         inElement = false;
+        eventsRecorded = 0;
     }
 
     /**
      * Java needs switch-case with Strings NOW
      */
     public void characters(char[] ch, int start, int length) {
+
         if (inElement) {
             if (currentElement.equals("lecture_title")) {
                 String title = new String(ch, start, length);
                 currentLecture.setTitle(title);
-                inElement = false;
             } else if (currentElement.equals("number")) {
                 String number = new String(ch, start, length);
                 currentLecture.setNumber(number);
-                inElement = false;
             } else if (currentElement.equals("persons")) {
                 String persons = new String(ch, start, length);
                 currentLecture.setStaff(persons);
-                inElement = false;
             } else if (currentElement.equals("semester")) {
                 String semester = new String(ch, start, length);
                 currentLecture.setSemester(semester);
-                inElement = false;
+            } else if (currentElement.equals("comment")) {
+                String desc = new String(ch, start, length);
+                currentLecture.setDescription(desc);
+            } else if (currentElement.equals("ects")) {
+                int ects = 0;
+                try {
+                    Integer.parseInt(new String(ch, start, length));
+                } catch (NumberFormatException e) {
+                    Log.d(LOG_TAG, "no ECTS provided");
+                }
+                currentLecture.setEcts(ects);
+            } else if (currentElement.equals("date_start")) {
+                dateStart = new String(ch, start, length);
+            } else if (currentElement.equals("date_end")) {
+                dateEnd = new String(ch, start, length);
+            } else if (currentElement.equals("time_start")) {
+                timeStart = new String(ch, start, length);
+            } else if (currentElement.equals("time_end")) {
+                timeEnd = new String(ch, start, length);
             }
+
+            inElement = false;
         }
     }
 
@@ -57,6 +82,18 @@ public class EvubParser extends DefaultHandler {
             currentLecture = new Lecture();
             inElement = false;
             currentElement = "";
+        } else if (localName.equals("event") && eventsRecorded == 0) {
+            Time start = dateFromString(dateStart, timeStart);
+            Time end = dateFromString(dateEnd, timeEnd);
+            currentLecture.setTimeStart(start);
+            currentLecture.setTimeEnd(end);
+
+            dateStart = null;
+            dateEnd = null;
+            timeStart = null;
+            timeEnd = null;
+
+            eventsRecorded++;
         }
     }
 
@@ -64,5 +101,29 @@ public class EvubParser extends DefaultHandler {
             Attributes attributes) {
         inElement = true;
         currentElement = localName;
+    }
+
+    /**
+     * Return a Time object which hopefully is equal to what is specified by
+     * parameters. Format assumptions: date: DD.MM.YYYY, time: HH:MM
+     * 
+     * @param date
+     * @param time
+     * @return
+     */
+    private Time dateFromString(String date, String time) {
+        String full = date.concat(time);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH:mm");
+
+        Time t = new Time();
+
+        try {
+            t.set(sdf.parse(full).getTime());
+        } catch (ParseException e) {
+            Log.d(LOG_TAG, "failed to parse '" + full + "'");
+        }
+
+        return t;
     }
 }

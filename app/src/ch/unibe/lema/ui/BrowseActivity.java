@@ -22,8 +22,9 @@ import ch.unibe.lema.provider.Lecture;
 public class BrowseActivity extends BindingActivity {
     private static final String TAG_NAME = "Browse";
     private LectureListAdapter listAdapter;
-    
-    private final class LectureLoadAsyncTask extends AsyncTask<Filter, Integer, List<Lecture>> {
+
+    private final class LectureLoadAsyncTask extends
+            AsyncTask<Filter, Integer, List<Lecture>> {
         protected List<Lecture> doInBackground(Filter... filters) {
 
             List<Lecture> result = null;
@@ -57,29 +58,12 @@ public class BrowseActivity extends BindingActivity {
         }
 
     }
-    
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Log.d(TAG_NAME, "onCreate");
         setContentView(R.layout.browse);
-        
-        
-
-        /* setup list */
-        final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
-        listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>());
-        lectureList.setAdapter(listAdapter);
-        lectureList.setOnItemClickListener(new OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                    long id) {
-                
-                Toast.makeText(getApplicationContext(), "position: "+position+" clicked. view: " + view
-                        ,5);
-                
-            }
-        });
     }
 
     public void onDestroy() {
@@ -87,40 +71,54 @@ public class BrowseActivity extends BindingActivity {
     }
 
     private Filter buildFilter(String query) {
-        //simple search based on lecture title
-        //in the informatik institution at current semester
+        // simple search based on lecture title
+        // in the informatik institution at current semester
         Filter filter = new Filter();
-        
-        filter.addCriteria(new FilterCriterion("institution", "informatik",""));
+
+        filter.addCriteria(new FilterCriterion("institution", "informatik", ""));
         filter.addCriteria(new FilterCriterion("semester", "S2011", ""));
-        filter.addCriteria(new FilterCriterion("title",query,""));
-        
+        filter.addCriteria(new FilterCriterion("title", query, ""));
+
         return filter;
-        
+
     }
-    
+
     private Filter defaultFilter() {
         /* TODO interactive filter creation */
-        
+
         Filter filter = new Filter();
-        
-        filter.addCriteria(new FilterCriterion("institution", "informatik",""));
+
+        filter.addCriteria(new FilterCriterion("institution", "informatik", ""));
         filter.addCriteria(new FilterCriterion("semester", "S2011", ""));
-                
+
         return filter;
     }
 
     protected void serviceAvailable() {
+        /* setup list */
+        final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
+        listAdapter = new LectureListAdapter(this, new LinkedList<Lecture>(),
+                mService);
+        lectureList.setAdapter(listAdapter);
+        lectureList.setOnItemClickListener(new OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                    int position, long id) {
+
+                Toast.makeText(getBaseContext(), "position: " + position
+                        + " clicked. view: " + view, 5);
+            }
+        });
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Log.i(TAG_NAME, "search: "+query);
+            Log.i(TAG_NAME, "search: " + query);
             new LectureLoadAsyncTask().execute(buildFilter(query));
-            
-        } else {            
+
+        } else {
             new LectureLoadAsyncTask().execute(defaultFilter());
         }
-        
+
     }
 }

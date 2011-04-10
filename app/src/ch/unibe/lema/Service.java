@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Binder;
 import android.os.IBinder;
@@ -45,7 +44,6 @@ public class Service extends android.app.Service {
         context = getApplicationContext();
         res = context.getResources();
         sub = new Subscriptions(context);
-        
 
         try {
             initDataProviders();
@@ -54,14 +52,12 @@ public class Service extends android.app.Service {
         }
 
     }
-    
+
     public void onDestroy() {
         super.onDestroy();
         sub.cleanUp();
         Log.d(LOG_TAG, "onDestroy");
     }
-    
-    
 
     private void initDataProviders() throws LemaException {
         activeProvider = -1;
@@ -69,7 +65,7 @@ public class Service extends android.app.Service {
         String[] providerClassNames = res.getStringArray(R.array.providers);
 
         for (String className : providerClassNames) {
-            Log.i("ldm", "init provider: " + className);
+            Log.i(LOG_TAG, "init provider: " + className);
             try {
                 Class providerClass = Class.forName(className);
                 ILectureDataProvider provider = (ILectureDataProvider) providerClass
@@ -122,15 +118,15 @@ public class Service extends android.app.Service {
         ILectureDataProvider provider = ldProviders.get(activeProvider);
         return provider.getCriteria();
     }
-    
+
     public List<Lecture> getSubscriptions() {
         return sub.getAll();
     }
-    
+
     public void subscribe(Lecture l) {
         sub.add(l);
     }
-    
+
     public void unsubscribe(Lecture l) {
         sub.unsubscribe(-1);
     }

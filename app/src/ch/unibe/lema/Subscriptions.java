@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import ch.unibe.lema.provider.Lecture;
 
 /**
@@ -14,8 +15,12 @@ import ch.unibe.lema.provider.Lecture;
  */
 public class Subscriptions {
     private SQLiteDatabase db;
-    private static final String[] COLUMNS = { "number", "title", "staff" };
+    private static final String[] INSERT_COLUMNS = { "number", "title", "staff" };
+    private static final String[] SELECT_COLUMNS = { "id", "number", "title",
+            "staff" };
+    private static final String KEY_COLUMN = "id";
     private static final String TABLE_NAME = "subscription";
+    private static final String LOG_TAG = "Subscriptions";
 
     public Subscriptions(Context context) {
         db = new Storage(context).getWritableDatabase();
@@ -24,28 +29,30 @@ public class Subscriptions {
     public void add(Lecture lecture) {
         ContentValues values = new ContentValues();
 
-        values.put(COLUMNS[0], lecture.getNumber());
-        values.put(COLUMNS[1], lecture.getTitle());
-        values.put(COLUMNS[2], lecture.getStaff());
+        values.put(INSERT_COLUMNS[0], lecture.getNumber());
+        values.put(INSERT_COLUMNS[1], lecture.getTitle());
+        values.put(INSERT_COLUMNS[2], lecture.getStaff());
 
         db.insert(TABLE_NAME, null, values);
+
+        Log.d(LOG_TAG, "Subscribed to " + lecture.getTitle());
     }
 
     public void unsubscribe(long lectureId) {
-
+        db.delete(TABLE_NAME, KEY_COLUMN + "=" + lectureId, null);
     }
 
     public List<Lecture> getAll() {
-        Cursor result = db.query(TABLE_NAME, COLUMNS, null, null, null, null,
-                null);
+        Cursor result = db.query(TABLE_NAME, SELECT_COLUMNS, null, null, null,
+                null, null);
 
         List<Lecture> subs = new ArrayList<Lecture>();
 
         while (result.moveToNext()) {
-            Lecture lecture = new Lecture();
-            lecture.setNumber(result.getString(0));
-            lecture.setTitle(result.getString(1));
-            lecture.setStaff(result.getString(2));
+            Lecture lecture = new Lecture(result.getLong(0));
+            lecture.setNumber(result.getString(1));
+            lecture.setTitle(result.getString(2));
+            lecture.setStaff(result.getString(3));
 
             subs.add(lecture);
         }
