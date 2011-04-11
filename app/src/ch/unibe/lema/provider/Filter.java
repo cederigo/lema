@@ -28,4 +28,24 @@ public class Filter implements Iterable<FilterCriterion> {
     public Iterator<FilterCriterion> iterator() {
         return criteria.iterator();
     }
+    
+    /*match filter objects based on their filtercriteria key=value&key2=value2..*/
+    
+    public int hashCode() {
+        return toString().hashCode();
+    }
+    
+    public boolean equals(Object o) {
+        return toString().equals(o.toString());
+    }
+    
+    public String toString() {
+        String result = "";
+        for(FilterCriterion f : criteria) {
+            result += f.toString() + "&";
+        }
+        return result;
+        
+    }
+    
 }

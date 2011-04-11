@@ -1,5 +1,6 @@
 package ch.unibe.lema;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class Service extends android.app.Service {
 
     private static final String LOG_TAG = "LeMaService";
     private List<ILectureDataProvider> ldProviders;
+    /*simple cache for filter -> lecture-list lookup. valid as long as 
+     *the service object lives*/
+    private HashMap<Filter,List<Lecture>> filter2Lectures;
     private Subscriptions sub;
     private int activeProvider;
 
@@ -44,6 +48,7 @@ public class Service extends android.app.Service {
         context = getApplicationContext();
         res = context.getResources();
         sub = new Subscriptions(context);
+        filter2Lectures = new HashMap<Filter, List<Lecture>>();
 
         try {
             initDataProviders();
@@ -110,8 +115,18 @@ public class Service extends android.app.Service {
 
     public List<Lecture> findLectures(Filter filter) throws LemaException {
         ILectureDataProvider provider = ldProviders.get(activeProvider);
-        return provider.getLectures(filter);
-
+        
+        
+        if ( filter2Lectures.containsKey(filter)) {
+            Log.d(LOG_TAG, "lectures from cache-entry: "+filter);
+            return filter2Lectures.get(filter);
+        } else {
+            Log.d(LOG_TAG, "new cache-entry: "+filter);
+            List<Lecture> newLectures = provider.getLectures(filter);
+            filter2Lectures.put(filter, newLectures);
+            return newLectures;
+        }
+        
     }
 
     public List<FilterCriterion> getFilterCriteria() {
