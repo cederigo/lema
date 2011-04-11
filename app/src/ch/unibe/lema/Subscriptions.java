@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.text.format.Time;
 import android.util.Log;
 import ch.unibe.lema.provider.Lecture;
 
@@ -15,9 +16,8 @@ import ch.unibe.lema.provider.Lecture;
  */
 public class Subscriptions {
     private SQLiteDatabase db;
-    private static final String[] INSERT_COLUMNS = { "number", "title", "staff" };
-    private static final String[] SELECT_COLUMNS = { "id", "number", "title",
-            "staff" };
+    private static final String[] COLUMNS = { "id", "number", "title", "staff",
+            "semester", "description", "ects", "start", "end" };
     private static final String KEY_COLUMN = "id";
     private static final String TABLE_NAME = "subscription";
     private static final String LOG_TAG = "Subscriptions";
@@ -29,9 +29,14 @@ public class Subscriptions {
     public Lecture add(Lecture lecture) {
         ContentValues values = new ContentValues();
 
-        values.put(INSERT_COLUMNS[0], lecture.getNumber());
-        values.put(INSERT_COLUMNS[1], lecture.getTitle());
-        values.put(INSERT_COLUMNS[2], lecture.getStaff());
+        values.put(COLUMNS[1], lecture.getNumber());
+        values.put(COLUMNS[2], lecture.getTitle());
+        values.put(COLUMNS[3], lecture.getStaff());
+        values.put(COLUMNS[4], lecture.getSemester());
+        values.put(COLUMNS[5], lecture.getDescription());
+        values.put(COLUMNS[6], lecture.getEcts());
+        values.put(COLUMNS[7], lecture.getTimeStart().toMillis(false));
+        values.put(COLUMNS[8], lecture.getTimeEnd().toMillis(false));
 
         long id = db.insert(TABLE_NAME, null, values);
 
@@ -45,8 +50,8 @@ public class Subscriptions {
     }
 
     public List<Lecture> getAll() {
-        Cursor result = db.query(TABLE_NAME, SELECT_COLUMNS, null, null, null,
-                null, null);
+        Cursor result = db.query(TABLE_NAME, COLUMNS, null, null, null, null,
+                null);
 
         List<Lecture> subs = new ArrayList<Lecture>();
 
@@ -55,6 +60,17 @@ public class Subscriptions {
             lecture.setNumber(result.getString(1));
             lecture.setTitle(result.getString(2));
             lecture.setStaff(result.getString(3));
+            lecture.setSemester(result.getString(4));
+            lecture.setDescription(result.getString(5));
+            lecture.setEcts(result.getFloat(6));
+
+            Time start = new Time();
+            start.set(result.getLong(7));
+            lecture.setTimeStart(start);
+
+            Time end = new Time();
+            end.set(result.getLong(8));
+            lecture.setTimeEnd(end);
 
             subs.add(lecture);
         }

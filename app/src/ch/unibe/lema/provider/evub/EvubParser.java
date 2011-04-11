@@ -116,7 +116,6 @@ public class EvubParser extends DefaultHandler {
      */
     private Time dateFromString(String date, String time) {
         String full = date.concat(time);
-        Log.d(LOG_TAG, "full: " + full);
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH:mm");
 
         Time t = new Time();
