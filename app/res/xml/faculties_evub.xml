@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<faculties>
+  <faculty name="Philosophisch-humanwissenschaftliche Fakultät">
+    <institution>Institut für Psychologie</institution>
+    <institution>Institut für Erziehungswissenschaft</institution>
+    <institution>Institut für Sportwissenschaft</institution>
+  </faculty>
+  <faculty name="Philosophisch-historische Fakultät">
+    <institution>Institut für Archäologische Wissenschaften, Abteilungen Ur- und Frühgeschichte und Archäologie der Römischen Provinzen</institution>
+    <institution>Institut für Philosophie (phil.-hist.)</institution>
+    <institution>Historisches Institut</institution>
+    <institution>Institute of Advanced Study in the Humanities and the Social Sciences (I.A.S.H.)</institution>
+    <institution>Institut für Klassische Philologie</institution>
+    <institution>Institut für Sozialanthropologie</institution>
+    <institution>Institut für Kunstgeschichte</institution>
+    <institution>Institut für Sprachwissenschaft</institution>
+    <institution>Institut für Germanistik</institution>
+    <institution>Institut für Englische Sprachen und Literaturen</institution>
+    <institution>Institut für Theaterwissenschaft</institution>
+    <institution>Institut für Islamwissenschaft und Neuere Orientalische Philologie</institution>
+    <institution>Institut für Slavische Sprachen und Literaturen</institution>
+    <institution>Institut für Italienische Sprache und Literatur</institution>
+    <institution>Institut für Spanische Sprache und Literatur</institution>
+    <institution>Institut für Archäologische Wissenschaften, Abteilung Vorderasien</institution>
+    <institution>Institut für Religionswissenschaft</institution>
+    <institution>Institut für Archäologische Wissenschaften, Abteilung Mittelmeer</institution>
+    <institution>Philosophisch-historische Fakultät</institution>
+    <institution>Institut für Musikwissenschaft</institution>
+    <institution>Institut für Französische Sprache und Literatur</institution>
+  </faculty>
+  <faculty name="Philosophisch-naturwissenschaftliche Fakultät">
+    <institution>Institut für Informatik und angewandte Mathematik</institution>
+    <institution>Institut für Geologie</institution>
+    <institution>Departement für Mathematik und Statistik</institution>
+    <institution>Oeschger Centre</institution>
+    <institution>Departement für Chemie und Biochemie</institution>
+    <institution>Geographisches Institut</institution>
+    <institution>Institut für Pflanzenwissenschaften</institution>
+    <institution>Institut für theoretische Physik</institution>
+    <institution>Physikalisches Institut</institution>
+    <institution>Institut für Philosophie (phil.-hist.)</institution>
+    <institution>Institut für Philosophie (phil.-nat.)</institution>
+    <institution>Astronomisches Institut</institution>
+    <institution>Institut für angewandte Physik</institution>
+    <institution>Departement Biologie</institution>
+    <institution>Institut für Zellbiologie</institution>
+    <institution>Institut für Ökologie und Evolution</institution>
+  </faculty>
+  <faculty name="Theologische Fakultät">
+    <institution>Institut für Religionswissenschaft</institution>
+    <institution>Departement für Evangelische Theologie</institution>
+    <institution>Theologische Fakultät</institution>
+    <institution>Departement für Christkatholische Theologie</institution>
+    <institution>Institut für Islamwissenschaft und Neuere Orientalische Philologie</institution>
+  </faculty>
+  <faculty name="Rechtswissenschaftliche Fakultät">
+    <institution>Institut für Steuerrecht</institution>
+    <institution>Institut für Europa- und Wirtschaftsvölkerrecht</institution>
+    <institution>Institut für öffentliches Recht</institution>
+    <institution>Institut für Strafrecht und Kriminologie</institution>
+    <institution>Zivilistisches Seminar</institution>
+    <institution>Romanistisches Institut</institution>
+    <institution>Institut für Rechtsgeschichte</institution>
+    <institution>Institut für Internat. Privat- u. Verfahrensrecht</institution>
+    <institution>Institut für Wirtschaftsrecht</institution>
+    <institution>Kompetenzzentrum für Public Management</institution>
+    <institution>Medizinische Fakultät</institution>
+  </faculty>
+  <faculty name="Medizinische Fakultät">
+    <institution>Institut für Chirurgische Technologien und Biomechanik</institution>
+    <institution>Zahnmedizinische Kliniken</institution>
+    <institution>Medizinische Poliklinik</institution>
+    <institution>Universitätsklinik für Anästhesiologie und Schmerztherapie</institution>
+    <institution>Medizinische Fakultät</institution>
+    <institution>Universitätsklinik und Poliklinik für Psychiatrie</institution>
+    <institution>Universitätsklinik für Hals-, Nasen-, Ohrenkrankheiten, Kopf- und Halschirurgie</institution>
+    <institution>Institut für Biochemie und Molekulare Medizin</institution>
+    <institution>Universitätsklinik für Infektiologie</institution>
+    <institution>Institut für Klinische Pharmakologie und Viszerale Forschung</institution>
+    <institution>Universitätsinstitut für Immunologie</institution>
+    <institution>Institut für Physiologie</institution>
+    <institution>Departement Klinische Forschung</institution>
+    <institution>Abt. für klinisch-experimentelle Forschung</institution>
+    <institution>Institut für Anatomie</institution>
+    <institution>Institut für Pathologie</institution>
+    <institution>Inselspital</institution>
+    <institution>Institut für Medizinische Lehre IML</institution>
+    <institution>Institut für Pharmakologie</institution>
+    <institution>Universitätsklinik für Plastische- und Handchirurgie</institution>
+  </faculty>
+  <faculty name="Wirtschafts- und Sozialwissenschaftliche Fakultät">
+    <institution>Departement Volkswirtschaftslehre</institution>
+    <institution>Institut für Soziologie</institution>
+    <institution>Institut für Kommunikations- und Medienwissenschaft</institution>
+    <institution>Kompetenzzentrum für Public Management (WiSo)</institution>
+    <institution>Institut für Organisation und Personal</institution>
+    <institution>Institut für Marketing u. Unternehmensführung, Innovation</institution>
+    <institution>Institut für Politikwissenschaft</institution>
+    <institution>Institut für öffentliches Recht</institution>
+    <institution>Institut für Wirtschaftsrecht</institution>
+    <institution>Institut für Wirtschaftsinformatik</institution>
+    <institution>Institut für Marketing u. Unternehmensführung, Marketing</institution>
+    <institution>Institut für Unternehmensrechnung u. Controlling</institution>
+    <institution>Institut für Finanzmanagement</institution>
+    <institution>Institut für Marketing u. Unternehmensführung, Management</institution>
+    <institution>Forschungsinstitut für Freizeit und Tourismus</institution>
+    <institution>Departement für Mathematik und Statistik</institution>
+    <institution>Institut für Sprachwissenschaft</institution>
+  </faculty>
+  <faculty name="weitere Institutionen/Studiengänge">
+    <institution>Graduate School for Cellular and Biomedical Sciences</institution>
+    <institution>Phil.-hum. (Raumreservation)</institution>
+    <institution>LLB (Raumreservation)</institution>
+    <institution>Collegium generale</institution>
+    <institution>Verwaltung (Raumreservation)</institution>
+    <institution>Interdisziplinäres Zentrum für Geschlechterforschung IZFG</institution>
+    <institution>Geographisches Institut</institution>
+    <institution>Interfakultäre Koordinationsstelle für Allgemeine Ökologie</institution>
+    <institution>Zentrum für universitäre Weiterbildung</institution>
+    <institution>Zentrum für Sprachkompetenz</institution>
+    <institution>Seniorenuniversität</institution>
+  </faculty>
+  <faculty name="Vetsuisse-Fakultät">
+    <institution>Abteilung Veterinär-Anatomie</institution>
+    <institution>Departement für klinische Veterinärmedizin</institution>
+    <institution>Veterinary Public Health-Institut</institution>
+    <institution>Institut für Veterinär-Virologie</institution>
+    <institution>Institut für Genetik</institution>
+    <institution>Institut für Parasitologie</institution>
+    <institution>Vetsuisse-Fakultät</institution>
+    <institution>Institut für Tierpathologie</institution>
+    <institution>Institut für Veterinär-Bakteriologie</institution>
+    <institution>Klinik für kleine Haustiere</institution>
+    <institution>Klinik für Nutztiere und Pferde</institution>
+    <institution>Institut für Tierneurologie</institution>
+    <institution>Abteilung Veterinär-Pharmakologie und Toxikologie</institution>
+  </faculty>
+</faculties>
