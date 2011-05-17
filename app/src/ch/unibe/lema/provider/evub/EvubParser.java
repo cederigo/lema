@@ -20,11 +20,11 @@ public class EvubParser extends DefaultHandler {
     private static final String LOG_TAG = "EvubParser";
 
     private List<Lecture> lectures;
-    private Lecture currentLecture;
-    private Time start, end;
-    private String currentElement, timeStart, timeEnd, dateStart, dateEnd;
+    private Lecture currentLecture;    
+    private String currentElement, timeStart, timeEnd, dateStart, dateEnd, weekDay;
     private boolean inElement;
     private int eventsRecorded;
+    private Attributes currentAttributes;
 
     public EvubParser(List<Lecture> lectures) {
         this.lectures = lectures;
@@ -70,6 +70,8 @@ public class EvubParser extends DefaultHandler {
                 timeStart = new String(ch, start, length).trim();
             } else if (currentElement.equals("time_end")) {
                 timeEnd = new String(ch, start, length).trim();
+            } else if (currentElement.equals("day")) {
+                //weekDay = currentAttributes.getValue(0);
             }
 
             inElement = false;
@@ -83,11 +85,16 @@ public class EvubParser extends DefaultHandler {
             inElement = false;
             currentElement = "";
             eventsRecorded = 0;
-        } else if (localName.equals("event") && eventsRecorded == 0) {
-            Time start = dateFromString(dateStart, timeStart);
-            Time end = dateFromString(dateEnd, timeEnd);
-            currentLecture.setTimeStart(start);
-            currentLecture.setTimeEnd(end);
+        } else if (localName.equals("event")) {        
+            
+            if (eventsRecorded == 0) {
+                currentLecture.setTimeStart(dateFromString(dateStart));
+                currentLecture.setTimeEnd(dateFromString(dateEnd));                
+            }
+            
+            currentLecture.addEvent("some location", 
+                    timeFromString(timeStart,weekDay), timeFromString(timeStart,weekDay));
+            
 
             dateStart = null;
             dateEnd = null;
@@ -102,11 +109,12 @@ public class EvubParser extends DefaultHandler {
             Attributes attributes) {
         inElement = true;
         currentElement = localName;
+        currentAttributes = attributes;
     }
 
     /**
      * Return a Time object which hopefully is equal to what is specified by
-     * parameters. Format assumptions: date: DD.MM.YYYY, time: HH:MM
+     * parameters. Format assumptions: date: DD.MM.YYYY
      * 
      * TODO parse if only date or time is given
      * 
@@ -114,18 +122,47 @@ public class EvubParser extends DefaultHandler {
      * @param time
      * @return
      */
-    private Time dateFromString(String date, String time) {
-        String full = date.concat(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyyHH:mm");
+    private Time dateFromString(String date) {
+        ;
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
         Time t = new Time();
 
         try {
-            t.set(sdf.parse(full).getTime());
+            t.set(sdf.parse(date).getTime());
         } catch (ParseException e) {
-            Log.d(LOG_TAG, "failed to parse '" + full + "'");
+            Log.d(LOG_TAG, "failed to parse '" + date + "'");
         }
 
         return t;
     }
+    
+    /**
+     * Return a Time object which hopefully is equal to what is specified by
+     * parameters. Format assumptions:HH:mm
+     * 
+     * TODO parse if only date or time is given
+     * 
+     * @param date
+     * @param time
+     * @return
+     */
+    private Time timeFromString(String time, String weekDay) {
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        int dayOfWeek = 0;
+
+        Time t = new Time();        
+
+        try {
+            t.set(sdf.parse(time).getTime());
+            dayOfWeek = Integer.parseInt(weekDay);
+            t.weekDay = dayOfWeek;
+        } catch (Exception e) {
+            Log.d(LOG_TAG, "failed to parse '" + time + "'");
+        }
+
+        return t;
+    }
+    
 }

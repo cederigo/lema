@@ -1,5 +1,8 @@
 package ch.unibe.lema.provider;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.format.Time;
@@ -12,13 +15,49 @@ public class Lecture implements Parcelable {
     private String semester;
     private String description;
     private float ects;
-    private Time start, end;
-    private Long id;
+    private Time startDate, endDate;
+    private List<Event> events;
+    private Long id;    
+    
+    
+    public class Event implements Parcelable{
+        
+        public Time startTime;
+        public Time endTime;         
+        public String location;
+        
+        
+        private Event(String location, Time startTime, Time endTime) {
+            this.location = location;
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
+        
+        private Event(Parcel in) {
+            this.location = in.readString();
+            this.startTime = new Time();
+            this.startTime.set(in.readLong());
+            this.endTime = new Time();
+            this.endTime.set(in.readLong());
+            
+        }
+        
+        public int describeContents() {            
+            return 0;
+        }
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(location);
+            dest.writeLong(startTime.toMillis(false));
+            dest.writeLong(endTime.toMillis(false));
+        }
+        
+    }
 
     public Lecture() {
         id = -1L;
-        start = new Time();
-        end = new Time();
+        startDate = new Time();
+        endDate = new Time();
+        events = new LinkedList<Event>();
     }
 
     public Lecture(long id) {
@@ -34,8 +73,8 @@ public class Lecture implements Parcelable {
         this.semester = copy.getSemester();
         this.description = copy.getDescription();
         this.ects = copy.getEcts();
-        this.start = copy.getTimeStart();
-        this.end = copy.getTimeEnd();
+        this.startDate = copy.getTimeStart();
+        this.endDate = copy.getTimeEnd();
     }
 
     public Lecture(Parcel in) {
@@ -46,10 +85,14 @@ public class Lecture implements Parcelable {
         semester = in.readString();
         description = in.readString();
         ects = in.readFloat();
-        start = new Time();
-        start.set(in.readLong());
-        end = new Time();
-        end.set(in.readLong());
+        startDate = new Time();
+        startDate.set(in.readLong());
+        endDate = new Time();
+        endDate.set(in.readLong());
+        int eventSize = in.readInt();
+        for (int i = 0; i < eventSize; i++) {
+            events.add(new Event(in));
+        }
     }
 
     public boolean isSubscription() {
@@ -109,19 +152,27 @@ public class Lecture implements Parcelable {
     }
 
     public void setTimeStart(Time timeStart) {
-        this.start = timeStart;
+        this.startDate = timeStart;
     }
 
     public Time getTimeStart() {
-        return start;
+        return startDate;
     }
 
     public void setTimeEnd(Time timeEnd) {
-        this.end = timeEnd;
+        this.endDate = timeEnd;
     }
 
     public Time getTimeEnd() {
-        return end;
+        return endDate;
+    }
+    
+    public void addEvent(String description, Time startTime, Time endTime) {
+        events.add(new Event(description,startTime,endTime));
+    }
+    
+    public List<Event> getEvents() {
+        return events;
     }
 
     /**
@@ -147,8 +198,13 @@ public class Lecture implements Parcelable {
         dest.writeString(semester);
         dest.writeString(description);
         dest.writeFloat(ects);
-        dest.writeLong(start.toMillis(false));
-        dest.writeLong(end.toMillis(false));
+        dest.writeLong(startDate.toMillis(false));
+        dest.writeLong(endDate.toMillis(false));
+        dest.writeInt(events.size());
+        for (Event e : events) {
+            dest.writeParcelable(e, flags);
+        }
+        
     }
 
     public static final Parcelable.Creator<Lecture> CREATOR = new Parcelable.Creator<Lecture>() {
