@@ -2,6 +2,7 @@ package ch.unibe.lema.provider.evub;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.xml.sax.Attributes;
@@ -23,8 +24,7 @@ public class EvubParser extends DefaultHandler {
     private Lecture currentLecture;    
     private String currentElement, timeStart, timeEnd, dateStart, dateEnd, weekDay;
     private boolean inElement;
-    private int eventsRecorded;
-    private Attributes currentAttributes;
+    private int eventsRecorded;    
 
     public EvubParser(List<Lecture> lectures) {
         this.lectures = lectures;
@@ -70,9 +70,7 @@ public class EvubParser extends DefaultHandler {
                 timeStart = new String(ch, start, length).trim();
             } else if (currentElement.equals("time_end")) {
                 timeEnd = new String(ch, start, length).trim();
-            } else if (currentElement.equals("day")) {
-                //weekDay = currentAttributes.getValue(0);
-            }
+            } 
 
             inElement = false;
         }
@@ -92,8 +90,11 @@ public class EvubParser extends DefaultHandler {
                 currentLecture.setTimeEnd(dateFromString(dateEnd));                
             }
             
+            Time startTime = timeFromString(timeStart,weekDay);
+            Time endTime = timeFromString(timeEnd,weekDay);
+            
             currentLecture.addEvent("some location", 
-                    timeFromString(timeStart,weekDay), timeFromString(timeStart,weekDay));
+                    startTime, endTime);
             
 
             dateStart = null;
@@ -109,7 +110,13 @@ public class EvubParser extends DefaultHandler {
             Attributes attributes) {
         inElement = true;
         currentElement = localName;
-        currentAttributes = attributes;
+        
+        if (currentElement.equals("day")) {            
+            if (attributes.getLength() == 1) {
+                weekDay = attributes.getValue(0);
+            }
+        }
+        
     }
 
     /**
@@ -155,9 +162,13 @@ public class EvubParser extends DefaultHandler {
         Time t = new Time();        
 
         try {
-            t.set(sdf.parse(time).getTime());
+            /*1.1.1970 is a Thursday (weekday=4)
+             *so add some days to get the correct day of week*/
+            Date parsedDate = sdf.parse(time);
             dayOfWeek = Integer.parseInt(weekDay);
-            t.weekDay = dayOfWeek;
+            t.set(0, parsedDate.getMinutes(), parsedDate.getHours(), 
+                    t.monthDay + 3 + dayOfWeek, t.month, t.year);
+                        
         } catch (Exception e) {
             Log.d(LOG_TAG, "failed to parse '" + time + "'");
         }
