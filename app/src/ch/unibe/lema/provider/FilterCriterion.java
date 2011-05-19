@@ -1,5 +1,4 @@
 package ch.unibe.lema.provider;
-
 /**
  * Represents a criteria by which lectures may be filtered.
  * 
@@ -10,16 +9,27 @@ package ch.unibe.lema.provider;
 public class FilterCriterion {
     private String key;
     private String value;
+    private String[] suggestions;
     private String description;
 
-    public FilterCriterion(String key, String value, String description) {
+    public FilterCriterion(String key, String value,
+            String[] suggestions, String description) {
         this.key = key;
         this.value = value;
         this.description = description;
+        this.suggestions = suggestions;
     }
     
     public FilterCriterion(String key) {
-        this(key,null,null);
+        this(key,null,new String[]{},"");
+    }
+    
+    public FilterCriterion(String key, String value) {
+        this(key,value,new String[]{},"");
+    }
+    
+    public FilterCriterion(String key, String[] suggestions, String description) {
+        this(key,null,suggestions,description);
     }
 
     public String getKey() {
@@ -28,6 +38,10 @@ public class FilterCriterion {
 
     public String getValue() {
         return value;
+    }
+    
+    public String[] getSuggestions() {
+        return suggestions;
     }
 
     public String getDescription() {

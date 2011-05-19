@@ -18,8 +18,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import android.content.res.Resources;
 import android.util.Log;
 import ch.unibe.lema.LemaException;
+import ch.unibe.lema.R;
 import ch.unibe.lema.provider.Filter;
 import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.ILectureDataProvider;
@@ -32,16 +34,21 @@ public class EvubDataProvider implements ILectureDataProvider {
     private List<FilterCriterion> filterCriteria;
     private HttpClient client;
 
-    public EvubDataProvider() {
+    public EvubDataProvider() throws LemaException {
         filterCriteria = new LinkedList<FilterCriterion>();
-        /* available criterions on evub */
-        filterCriteria.add(new FilterCriterion("institution"));
-        filterCriteria.add(new FilterCriterion("person"));
-        filterCriteria.add(new FilterCriterion("semester"));
-        // more to come. maybe also add suggestions for possible values in a
-        // FilterCriterion
-
         client = new DefaultHttpClient();
+    }
+    
+    public void init(Resources res) throws LemaException {
+
+        filterCriteria.add(new FilterCriterion("institution"
+                ,res.getStringArray(R.array.institutions),""));
+        filterCriteria.add(new FilterCriterion("faculty"
+                ,res.getStringArray(R.array.faculies), ""));
+        // TODO automated semester string generation
+        filterCriteria.add(new FilterCriterion("semester",
+                new String[] { "S2011" }, ""));
+
     }
 
     public String getName() {

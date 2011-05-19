@@ -1,0 +1,132 @@
+<resources>
+  <string-array name="faculies">
+    <item>Philosophisch-humanwissenschaftliche Fakultät</item>
+    <item>Philosophisch-historische Fakultät</item>
+    <item>Philosophisch-naturwissenschaftliche Fakultät</item>
+    <item>Theologische Fakultät</item>
+    <item>Rechtswissenschaftliche Fakultät</item>
+    <item>Medizinische Fakultät</item>
+    <item>Wirtschafts- und Sozialwissenschaftliche Fakultät</item>
+    <item>weitere Institutionen/Studiengänge</item>
+    <item>Vetsuisse-Fakultät</item>
+  </string-array>
+  <string-array name="institutions">
+    <item>Institut für Psychologie</item>
+    <item>Institut für Erziehungswissenschaft</item>
+    <item>Institut für Sportwissenschaft</item>
+    <item>Institut für Archäologische Wissenschaften, Abteilungen Ur- und Frühgeschichte und Archäologie der Römischen Provinzen</item>
+    <item>Institut für Philosophie (phil.-hist.)</item>
+    <item>Historisches Institut</item>
+    <item>Institute of Advanced Study in the Humanities and the Social Sciences (I.A.S.H.)</item>
+    <item>Institut für Klassische Philologie</item>
+    <item>Institut für Sozialanthropologie</item>
+    <item>Institut für Kunstgeschichte</item>
+    <item>Institut für Sprachwissenschaft</item>
+    <item>Institut für Germanistik</item>
+    <item>Institut für Englische Sprachen und Literaturen</item>
+    <item>Institut für Theaterwissenschaft</item>
+    <item>Institut für Islamwissenschaft und Neuere Orientalische Philologie</item>
+    <item>Institut für Slavische Sprachen und Literaturen</item>
+    <item>Institut für Italienische Sprache und Literatur</item>
+    <item>Institut für Spanische Sprache und Literatur</item>
+    <item>Institut für Archäologische Wissenschaften, Abteilung Vorderasien</item>
+    <item>Institut für Religionswissenschaft</item>
+    <item>Institut für Archäologische Wissenschaften, Abteilung Mittelmeer</item>
+    <item>Philosophisch-historische Fakultät</item>
+    <item>Institut für Musikwissenschaft</item>
+    <item>Institut für Französische Sprache und Literatur</item>
+    <item>Institut für Informatik und angewandte Mathematik</item>
+    <item>Institut für Geologie</item>
+    <item>Departement für Mathematik und Statistik</item>
+    <item>Oeschger Centre</item>
+    <item>Departement für Chemie und Biochemie</item>
+    <item>Geographisches Institut</item>
+    <item>Institut für Pflanzenwissenschaften</item>
+    <item>Institut für theoretische Physik</item>
+    <item>Physikalisches Institut</item>
+    <item>Institut für Philosophie (phil.-hist.)</item>
+    <item>Institut für Philosophie (phil.-nat.)</item>
+    <item>Astronomisches Institut</item>
+    <item>Institut für angewandte Physik</item>
+    <item>Departement Biologie</item>
+    <item>Institut für Zellbiologie</item>
+    <item>Institut für Ökologie und Evolution</item>
+    <item>Institut für Religionswissenschaft</item>
+    <item>Departement für Evangelische Theologie</item>
+    <item>Theologische Fakultät</item>
+    <item>Departement für Christkatholische Theologie</item>
+    <item>Institut für Islamwissenschaft und Neuere Orientalische Philologie</item>
+    <item>Institut für Steuerrecht</item>
+    <item>Institut für Europa- und Wirtschaftsvölkerrecht</item>
+    <item>Institut für öffentliches Recht</item>
+    <item>Institut für Strafrecht und Kriminologie</item>
+    <item>Zivilistisches Seminar</item>
+    <item>Romanistisches Institut</item>
+    <item>Institut für Rechtsgeschichte</item>
+    <item>Institut für Internat. Privat- u. Verfahrensrecht</item>
+    <item>Institut für Wirtschaftsrecht</item>
+    <item>Kompetenzzentrum für Public Management</item>
+    <item>Medizinische Fakultät</item>
+    <item>Institut für Chirurgische Technologien und Biomechanik</item>
+    <item>Zahnmedizinische Kliniken</item>
+    <item>Medizinische Poliklinik</item>
+    <item>Universitätsklinik für Anästhesiologie und Schmerztherapie</item>
+    <item>Medizinische Fakultät</item>
+    <item>Universitätsklinik und Poliklinik für Psychiatrie</item>
+    <item>Universitätsklinik für Hals-, Nasen-, Ohrenkrankheiten, Kopf- und Halschirurgie</item>
+    <item>Institut für Biochemie und Molekulare Medizin</item>
+    <item>Universitätsklinik für Infektiologie</item>
+    <item>Institut für Klinische Pharmakologie und Viszerale Forschung</item>
+    <item>Universitätsinstitut für Immunologie</item>
+    <item>Institut für Physiologie</item>
+    <item>Departement Klinische Forschung</item>
+    <item>Abt. für klinisch-experimentelle Forschung</item>
+    <item>Institut für Anatomie</item>
+    <item>Institut für Pathologie</item>
+    <item>Inselspital</item>
+    <item>Institut für Medizinische Lehre IML</item>
+    <item>Institut für Pharmakologie</item>
+    <item>Universitätsklinik für Plastische- und Handchirurgie</item>
+    <item>Departement Volkswirtschaftslehre</item>
+    <item>Institut für Soziologie</item>
+    <item>Institut für Kommunikations- und Medienwissenschaft</item>
+    <item>Kompetenzzentrum für Public Management (WiSo)</item>
+    <item>Institut für Organisation und Personal</item>
+    <item>Institut für Marketing u. Unternehmensführung, Innovation</item>
+    <item>Institut für Politikwissenschaft</item>
+    <item>Institut für öffentliches Recht</item>
+    <item>Institut für Wirtschaftsrecht</item>
+    <item>Institut für Wirtschaftsinformatik</item>
+    <item>Institut für Marketing u. Unternehmensführung, Marketing</item>
+    <item>Institut für Unternehmensrechnung u. Controlling</item>
+    <item>Institut für Finanzmanagement</item>
+    <item>Institut für Marketing u. Unternehmensführung, Management</item>
+    <item>Forschungsinstitut für Freizeit und Tourismus</item>
+    <item>Departement für Mathematik und Statistik</item>
+    <item>Institut für Sprachwissenschaft</item>
+    <item>Graduate School for Cellular and Biomedical Sciences</item>
+    <item>Phil.-hum. (Raumreservation)</item>
+    <item>LLB (Raumreservation)</item>
+    <item>Collegium generale</item>
+    <item>Verwaltung (Raumreservation)</item>
+    <item>Interdisziplinäres Zentrum für Geschlechterforschung IZFG</item>
+    <item>Geographisches Institut</item>
+    <item>Interfakultäre Koordinationsstelle für Allgemeine Ökologie</item>
+    <item>Zentrum für universitäre Weiterbildung</item>
+    <item>Zentrum für Sprachkompetenz</item>
+    <item>Seniorenuniversität</item>
+    <item>Abteilung Veterinär-Anatomie</item>
+    <item>Departement für klinische Veterinärmedizin</item>
+    <item>Veterinary Public Health-Institut</item>
+    <item>Institut für Veterinär-Virologie</item>
+    <item>Institut für Genetik</item>
+    <item>Institut für Parasitologie</item>
+    <item>Vetsuisse-Fakultät</item>
+    <item>Institut für Tierpathologie</item>
+    <item>Institut für Veterinär-Bakteriologie</item>
+    <item>Klinik für kleine Haustiere</item>
+    <item>Klinik für Nutztiere und Pferde</item>
+    <item>Institut für Tierneurologie</item>
+    <item>Abteilung Veterinär-Pharmakologie und Toxikologie</item>
+  </string-array>
+</resources>

@@ -75,6 +75,7 @@ public class Service extends android.app.Service {
                 Class providerClass = Class.forName(className);
                 ILectureDataProvider provider = (ILectureDataProvider) providerClass
                         .newInstance();
+                provider.init(res);
                 ldProviders.add(provider);
             } catch (ClassNotFoundException e) {
                 throw new LemaException(e);
@@ -91,11 +92,12 @@ public class Service extends android.app.Service {
     public IBinder onBind(Intent i) {
         return binder;
     }
+    
+    
 
     /*
      * Public API
      */
-
     public String[] getProviderNames() {
         String[] result = new String[ldProviders.size()];
 

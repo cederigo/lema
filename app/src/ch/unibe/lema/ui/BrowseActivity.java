@@ -75,9 +75,9 @@ public class BrowseActivity extends BindingActivity {
         // in the informatik institution at current semester
         Filter filter = new Filter();
 
-        filter.addCriteria(new FilterCriterion("institution", "informatik", ""));
-        filter.addCriteria(new FilterCriterion("semester", "S2011", ""));
-        filter.addCriteria(new FilterCriterion("title", query, ""));
+        filter.addCriteria(new FilterCriterion("institution", "informatik"));
+        filter.addCriteria(new FilterCriterion("semester", "S2011"));
+        filter.addCriteria(new FilterCriterion("title", query));
 
         return filter;
 
@@ -88,8 +88,8 @@ public class BrowseActivity extends BindingActivity {
 
         Filter filter = new Filter();
 
-        filter.addCriteria(new FilterCriterion("institution", "informatik", ""));
-        filter.addCriteria(new FilterCriterion("semester", "S2011", ""));
+        filter.addCriteria(new FilterCriterion("institution", "informatik"));
+        filter.addCriteria(new FilterCriterion("semester", "S2011"));
 
         return filter;
     }

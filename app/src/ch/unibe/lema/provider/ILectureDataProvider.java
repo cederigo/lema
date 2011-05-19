@@ -2,6 +2,8 @@ package ch.unibe.lema.provider;
 
 import java.util.List;
 
+import android.content.res.Resources;
+
 import ch.unibe.lema.LemaException;
 
 public interface ILectureDataProvider {
@@ -17,5 +19,7 @@ public interface ILectureDataProvider {
     public List<Lecture> getLectures(Filter filter) throws LemaException;
 
     public List<FilterCriterion> getCriteria();
+    
+    public void init(Resources res) throws LemaException;
 
 }
