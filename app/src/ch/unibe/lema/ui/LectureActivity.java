@@ -47,8 +47,18 @@ public class LectureActivity extends BindingActivity {
         TextView ectsView = (TextView) findViewById(R.id.lecture_ects);
         ectsView.setText(Float.toString(mLecture.getEcts()));
         TextView whenView = (TextView) findViewById(R.id.lecture_when);
-        whenView.setText(mLecture.getTimeStart().format("%F %R") + " - "
-                + mLecture.getTimeEnd().format("%F %R"));
+        
+        /*events*/
+        whenView.setText("");
+        for(Lecture.Event e : mLecture.getEvents()){
+            Log.d(TAG_NAME, "week-day: " + e.startTime.weekDay);
+            Log.d(TAG_NAME, "start-time: " + e.startTime + "end-time: " +e.endTime );
+            
+            whenView.setText(whenView.getText() + 
+                    e.startTime.format("%A %H - ") + e.endTime.format("%H\n"));
+            
+        }
+        
         TextView descView = (TextView) findViewById(R.id.lecture_desc);
         descView.setText(mLecture.getDescription());
     }

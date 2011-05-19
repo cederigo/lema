@@ -20,12 +20,11 @@ public class Lecture implements Parcelable {
     private Long id;    
     
     
-    public class Event implements Parcelable{
+    public class Event {
         
         public Time startTime;
         public Time endTime;         
         public String location;
-        
         
         private Event(String location, Time startTime, Time endTime) {
             this.location = location;
@@ -40,15 +39,12 @@ public class Lecture implements Parcelable {
             this.endTime = new Time();
             this.endTime.set(in.readLong());
             
-        }
+        }        
         
-        public int describeContents() {            
-            return 0;
-        }
-        public void writeToParcel(Parcel dest, int flags) {
+        public void writeToParcel(Parcel dest) {
             dest.writeString(location);
-            dest.writeLong(startTime.toMillis(false));
-            dest.writeLong(endTime.toMillis(false));
+            dest.writeLong(startTime.toMillis(true));
+            dest.writeLong(endTime.toMillis(true));
         }
         
     }
@@ -89,6 +85,7 @@ public class Lecture implements Parcelable {
         startDate.set(in.readLong());
         endDate = new Time();
         endDate.set(in.readLong());
+        events = new LinkedList<Event>();
         int eventSize = in.readInt();
         for (int i = 0; i < eventSize; i++) {
             events.add(new Event(in));
@@ -202,8 +199,9 @@ public class Lecture implements Parcelable {
         dest.writeLong(endDate.toMillis(false));
         dest.writeInt(events.size());
         for (Event e : events) {
-            dest.writeParcelable(e, flags);
+            e.writeToParcel(dest);
         }
+        
         
     }
 
