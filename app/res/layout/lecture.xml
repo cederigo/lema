@@ -32,6 +32,18 @@
             <TextView android:text="When: " android:id="@+id/textView7" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
             <TextView android:text="TextView" android:id="@+id/lecture_when" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
         </TableRow>
+        
+        <TableRow android:id="@+id/tableRow8"
+            android:layout_width="wrap_content" android:layout_height="wrap_content">
+            
+            <Button android:layout_height="wrap_content"
+                android:layout_width="wrap_content" android:text="@string/lecture_bmap"
+                android:onClick="showMap" />
+
+        </TableRow>
+        
     </TableLayout>
+    
+    
   
 </LinearLayout>

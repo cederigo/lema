@@ -3,6 +3,7 @@ package ch.unibe.lema.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import ch.unibe.lema.R;
 import ch.unibe.lema.provider.Lecture;
@@ -53,6 +54,7 @@ public class LectureActivity extends BindingActivity {
         for(Lecture.Event e : mLecture.getEvents()){
             Log.d(TAG_NAME, "week-day: " + e.startTime.weekDay);
             Log.d(TAG_NAME, "start-time: " + e.startTime + "end-time: " +e.endTime );
+            Log.d(TAG_NAME, "location: " + e.location);
             
             whenView.setText(whenView.getText() + 
                     e.startTime.format("%A %H - ") + e.endTime.format("%H\n"));
@@ -61,6 +63,18 @@ public class LectureActivity extends BindingActivity {
         
         TextView descView = (TextView) findViewById(R.id.lecture_desc);
         descView.setText(mLecture.getDescription());
+    }
+    
+    /**
+     * gets called when "map-button" is pressed
+     * @param v
+     */
+    public void showMap(View v) {
+        Log.d(TAG_NAME, "show map activity");
+        
+        Intent mapIntent = new Intent(getBaseContext(), LocationActivity.class);
+        startActivity(mapIntent);
+        
     }
 
     @Override

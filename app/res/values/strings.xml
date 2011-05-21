@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">leMa</string>
     <string name="search_hint">search for lectures..</string>
+    <string name="lecture_bmap">Map</string>
     
     <string-array name="providers">
         <item>ch.unibe.lema.provider.evub.EvubDataProvider</item>
