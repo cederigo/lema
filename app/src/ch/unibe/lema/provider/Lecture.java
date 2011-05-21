@@ -41,7 +41,7 @@ public class Lecture implements Parcelable {
             
         }        
         
-        public void writeToParcel(Parcel dest) {
+        private void writeToParcel(Parcel dest) {
             dest.writeString(location);
             dest.writeLong(startTime.toMillis(true));
             dest.writeLong(endTime.toMillis(true));
@@ -71,6 +71,7 @@ public class Lecture implements Parcelable {
         this.ects = copy.getEcts();
         this.startDate = copy.getTimeStart();
         this.endDate = copy.getTimeEnd();
+        this.events = copy.getEvents();
     }
 
     public Lecture(Parcel in) {

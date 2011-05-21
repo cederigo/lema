@@ -23,7 +23,7 @@ public class Storage extends SQLiteOpenHelper {
 	private static final String CREATE_TABLE_EVENT = "CREATE TABLE "
 			+ TABLE_EVENT_NAME
 			+ " (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-			+ "subscription_id NOT NULL, description TEXT, start TIMESTAMP, end TIMESTAMP);";
+			+ "subscription_id NOT NULL, location TEXT, start TIMESTAMP, end TIMESTAMP);";
 
 	public Storage(Context context) {
 		super(context, DB_NAME, null, DB_VER);

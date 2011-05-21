@@ -22,7 +22,8 @@ public class EvubParser extends DefaultHandler {
 
     private List<Lecture> lectures;
     private Lecture currentLecture;    
-    private String currentElement, timeStart, timeEnd, dateStart, dateEnd, weekDay;
+    private String currentElement, timeStart, timeEnd, 
+        dateStart, dateEnd, weekDay, location;
     private boolean inElement;
     private int eventsRecorded;    
 
@@ -70,7 +71,9 @@ public class EvubParser extends DefaultHandler {
                 timeStart = new String(ch, start, length).trim();
             } else if (currentElement.equals("time_end")) {
                 timeEnd = new String(ch, start, length).trim();
-            } 
+            } else if (currentElement.equals("room_address")) {
+                location = new String(ch, start, length).trim();
+            }
 
             inElement = false;
         }
@@ -93,7 +96,7 @@ public class EvubParser extends DefaultHandler {
             Time startTime = timeFromString(timeStart,weekDay);
             Time endTime = timeFromString(timeEnd,weekDay);
             
-            currentLecture.addEvent("some location", 
+            currentLecture.addEvent(location, 
                     startTime, endTime);
             
 

@@ -20,7 +20,7 @@ public class Subscriptions {
 	private static final String[] SUB_COLUMNS = { "id", "number", "title",
 			"staff", "semester", "description", "ects", "start", "end" };
 	private static final String[] EVENT_COLUMNS = { "id", "subscription_id",
-			"start", "end" };
+			"start", "end", "location" };
 	private static final String KEY_COLUMN = "id";
 	private static final String SUB_TABLE_NAME = "subscription";
 	private static final String EVENT_TABLE_NAME = "event";
@@ -51,6 +51,7 @@ public class Subscriptions {
 			eventValues.put(EVENT_COLUMNS[1], id);
 			eventValues.put(EVENT_COLUMNS[2], e.startTime.toMillis(false));
 			eventValues.put(EVENT_COLUMNS[3], e.endTime.toMillis(false));
+			eventValues.put(EVENT_COLUMNS[4], e.location);
 
 			db.insert(EVENT_TABLE_NAME, null, eventValues);
 		}
@@ -97,10 +98,11 @@ public class Subscriptions {
 			while (eventResult.moveToNext()) {
 				Time startTime = new Time();
 				Time endTime = new Time();
+				String location = "";
 				startTime.set(eventResult.getLong(2));
 				endTime.set(eventResult.getLong(3));
-
-				lecture.addEvent("test", startTime, endTime);
+				location = eventResult.getString(4);
+				lecture.addEvent(location, startTime, endTime);
 			}
 
 			eventResult.close();
