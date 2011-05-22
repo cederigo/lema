@@ -69,10 +69,11 @@ public class LectureActivity extends BindingActivity {
      * gets called when "map-button" is pressed
      * @param v
      */
-    public void showMap(View v) {
-        Log.d(TAG_NAME, "show map activity");
+    public void showMap(View v) {        
         
         Intent mapIntent = new Intent(getBaseContext(), LocationActivity.class);
+        mapIntent.putExtra("lecture", mLecture);
+        
         startActivity(mapIntent);
         
     }

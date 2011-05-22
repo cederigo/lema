@@ -47,6 +47,10 @@ public class Lecture implements Parcelable {
             dest.writeLong(endTime.toMillis(true));
         }
         
+        public String toString() {
+            return startTime.format("%A %H - ") + endTime.format("%H");
+        }
+        
     }
 
     public Lecture() {
