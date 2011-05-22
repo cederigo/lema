@@ -2,6 +2,7 @@ package ch.unibe.lema.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,6 +72,7 @@ public class LectureActivity extends BindingActivity {
 		Button buttonCalendar = (Button) findViewById(R.id.button_event_calendar);
 		buttonCalendar.setOnClickListener(new OnClickListener() {
 
+			// TODO refactor
 			public void onClick(View v) {
 				Log.d(TAG_NAME, "adding events to calendar.");
 
@@ -79,9 +81,35 @@ public class LectureActivity extends BindingActivity {
 							"Adding " + mLecture.getTitle() + ", "
 									+ e.startTime.format3339(false) + ", "
 									+ e.endTime.format3339(false));
-					mService.addToCalendar(mLecture.getTitle(),
-							e.startTime.toMillis(true),
-							e.endTime.toMillis(true));
+
+					if (e.startTime.month != e.endTime.month) {
+						Log.d(TAG_NAME, "found recurring event");
+						long lstart = e.startTime.toMillis(true);
+						long lend = 0;
+						final long msInWeek = 1000 * 60 * 60 * 24 * 7;
+
+						Time start = new Time();
+						Time end = new Time();
+
+						start.set(lstart);
+						end.set(0, e.endTime.minute, e.endTime.hour,
+								start.monthDay, start.month, start.year);
+						lend = end.toMillis(true);
+
+						while (end.before(e.endTime)) {
+							Log.d(TAG_NAME,
+									"adding event: " + start.format3339(false)
+											+ " - " + end.format3339(false));
+							mService.addToCalendar(mLecture.getTitle(),
+									start.toMillis(true), end.toMillis(true));
+							lstart += msInWeek;
+							lend += msInWeek;
+
+							start.set(lstart);
+							end.set(lend);
+						}
+					}
+
 				}
 
 			}

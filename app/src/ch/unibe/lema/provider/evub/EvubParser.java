@@ -93,8 +93,10 @@ public class EvubParser extends DefaultHandler {
 				currentLecture.setTimeEnd(dateFromString(dateEnd));
 			}
 
-			Time startTime = timeFromString(timeStart, weekDay);
-			Time endTime = timeFromString(timeEnd, weekDay);
+			Time startTime = timeFromString(timeStart, weekDay,
+					dateFromString(dateStart));
+			Time endTime = timeFromString(timeEnd, weekDay,
+					dateFromString(dateEnd));
 
 			currentLecture.addEvent(location, startTime, endTime);
 
@@ -149,14 +151,14 @@ public class EvubParser extends DefaultHandler {
 	 * Return a Time object which hopefully is equal to what is specified by
 	 * parameters. Format assumptions:HH:mm
 	 * 
-	 * TODO parse if only date or time is given
+	 * TODO make less sketchy
 	 * 
 	 * @param date
 	 * @param time
+	 * @param time2
 	 * @return
 	 */
-	private Time timeFromString(String time, String weekDay) {
-		Log.d(LOG_TAG, "Parsing: " + time);
+	private Time timeFromString(String time, String weekDay, Time time2) {
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		int dayOfWeek = 0;
 
@@ -169,8 +171,8 @@ public class EvubParser extends DefaultHandler {
 			 */
 			Date parsedDate = sdf.parse(time);
 			dayOfWeek = Integer.parseInt(weekDay);
-			t.set(0, parsedDate.getMinutes(), parsedDate.getHours(), t.monthDay
-					+ 3 + dayOfWeek, t.month, t.year);
+			t.set(0, parsedDate.getMinutes(), parsedDate.getHours(),
+					time2.monthDay, time2.month, time2.year);
 
 		} catch (Exception e) {
 			Log.d(LOG_TAG, "failed to parse '" + time + "'");
@@ -178,5 +180,4 @@ public class EvubParser extends DefaultHandler {
 
 		return t;
 	}
-
 }
