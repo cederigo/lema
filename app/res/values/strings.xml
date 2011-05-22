@@ -7,4 +7,5 @@
     <string-array name="providers">
         <item>ch.unibe.lema.provider.evub.EvubDataProvider</item>
     </string-array>
+        <string name="button_add_event_calendar">Add events to calendar</string>
 </resources>

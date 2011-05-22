@@ -18,165 +18,165 @@ import ch.unibe.lema.provider.Lecture;
  */
 public class EvubParser extends DefaultHandler {
 
-    private static final String LOG_TAG = "EvubParser";
+	private static final String LOG_TAG = "EvubParser";
 
-    private List<Lecture> lectures;
-    private Lecture currentLecture;    
-    private String currentElement, timeStart, timeEnd, 
-        dateStart, dateEnd, weekDay, location;
-    private boolean inElement;
-    private int eventsRecorded;    
+	private List<Lecture> lectures;
+	private Lecture currentLecture;
+	private String currentElement, timeStart, timeEnd, dateStart, dateEnd,
+			weekDay, location;
+	private boolean inElement;
+	private int eventsRecorded;
 
-    public EvubParser(List<Lecture> lectures) {
-        this.lectures = lectures;
-        this.currentLecture = new Lecture();
-        inElement = false;
-        eventsRecorded = 0;
-    }
+	public EvubParser(List<Lecture> lectures) {
+		this.lectures = lectures;
+		this.currentLecture = new Lecture();
+		inElement = false;
+		eventsRecorded = 0;
+	}
 
-    /**
-     * Java needs switch-case with Strings NOW
-     */
-    public void characters(char[] ch, int start, int length) {
+	/**
+	 * Java needs switch-case with Strings NOW
+	 */
+	public void characters(char[] ch, int start, int length) {
 
-        if (inElement) {
-            if (currentElement.equals("lecture_title")) {
-                String title = new String(ch, start, length);
-                currentLecture.setTitle(title);
-            } else if (currentElement.equals("number")) {
-                String number = new String(ch, start, length);
-                currentLecture.setNumber(number);
-            } else if (currentElement.equals("persons")) {
-                String persons = new String(ch, start, length);
-                currentLecture.setStaff(persons);
-            } else if (currentElement.equals("semester")) {
-                String semester = new String(ch, start, length);
-                currentLecture.setSemester(semester);
-            } else if (currentElement.equals("comment")) {
-                String desc = new String(ch, start, length);
-                currentLecture.setDescription(desc);
-            } else if (currentElement.equals("ects")) {
-                float ects = 0;
-                try {
-                    ects = Float.parseFloat(new String(ch, start, length));
-                } catch (NumberFormatException e) {
-                    Log.d(LOG_TAG, "no ECTS provided");
-                }
-                currentLecture.setEcts(ects);
-            } else if (currentElement.equals("date_start")) {
-                dateStart = new String(ch, start, length).trim();
-            } else if (currentElement.equals("date_end")) {
-                dateEnd = new String(ch, start, length).trim();
-            } else if (currentElement.equals("time_start")) {
-                timeStart = new String(ch, start, length).trim();
-            } else if (currentElement.equals("time_end")) {
-                timeEnd = new String(ch, start, length).trim();
-            } else if (currentElement.equals("room_address")) {
-                location = new String(ch, start, length).trim();
-            }
+		if (inElement) {
+			if (currentElement.equals("lecture_title")) {
+				String title = new String(ch, start, length);
+				currentLecture.setTitle(title);
+			} else if (currentElement.equals("number")) {
+				String number = new String(ch, start, length);
+				currentLecture.setNumber(number);
+			} else if (currentElement.equals("persons")) {
+				String persons = new String(ch, start, length);
+				currentLecture.setStaff(persons);
+			} else if (currentElement.equals("semester")) {
+				String semester = new String(ch, start, length);
+				currentLecture.setSemester(semester);
+			} else if (currentElement.equals("comment")) {
+				String desc = new String(ch, start, length);
+				currentLecture.setDescription(desc);
+			} else if (currentElement.equals("ects")) {
+				float ects = 0;
+				try {
+					ects = Float.parseFloat(new String(ch, start, length));
+				} catch (NumberFormatException e) {
+					Log.d(LOG_TAG, "no ECTS provided");
+				}
+				currentLecture.setEcts(ects);
+			} else if (currentElement.equals("date_start")) {
+				dateStart = new String(ch, start, length).trim();
+			} else if (currentElement.equals("date_end")) {
+				dateEnd = new String(ch, start, length).trim();
+			} else if (currentElement.equals("time_start")) {
+				timeStart = new String(ch, start, length).trim();
+			} else if (currentElement.equals("time_end")) {
+				timeEnd = new String(ch, start, length).trim();
+			} else if (currentElement.equals("room_address")) {
+				location = new String(ch, start, length).trim();
+			}
 
-            inElement = false;
-        }
-    }
+			inElement = false;
+		}
+	}
 
-    public void endElement(String uri, String localName, String qName) {
-        if (localName.equals("lecture")) {
-            lectures.add(currentLecture);
-            currentLecture = new Lecture();
-            inElement = false;
-            currentElement = "";
-            eventsRecorded = 0;
-        } else if (localName.equals("event")) {        
-            
-            if (eventsRecorded == 0) {
-                currentLecture.setTimeStart(dateFromString(dateStart));
-                currentLecture.setTimeEnd(dateFromString(dateEnd));                
-            }
-            
-            Time startTime = timeFromString(timeStart,weekDay);
-            Time endTime = timeFromString(timeEnd,weekDay);
-            
-            currentLecture.addEvent(location, 
-                    startTime, endTime);
-            
+	public void endElement(String uri, String localName, String qName) {
+		if (localName.equals("lecture")) {
+			lectures.add(currentLecture);
+			currentLecture = new Lecture();
+			inElement = false;
+			currentElement = "";
+			eventsRecorded = 0;
+		} else if (localName.equals("event")) {
 
-            dateStart = null;
-            dateEnd = null;
-            timeStart = null;
-            timeEnd = null;
+			if (eventsRecorded == 0) {
+				currentLecture.setTimeStart(dateFromString(dateStart));
+				currentLecture.setTimeEnd(dateFromString(dateEnd));
+			}
 
-            eventsRecorded++;
-        }
-    }
+			Time startTime = timeFromString(timeStart, weekDay);
+			Time endTime = timeFromString(timeEnd, weekDay);
 
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) {
-        inElement = true;
-        currentElement = localName;
-        
-        if (currentElement.equals("day")) {            
-            if (attributes.getLength() == 1) {
-                weekDay = attributes.getValue(0);
-            }
-        }
-        
-    }
+			currentLecture.addEvent(location, startTime, endTime);
 
-    /**
-     * Return a Time object which hopefully is equal to what is specified by
-     * parameters. Format assumptions: date: DD.MM.YYYY
-     * 
-     * TODO parse if only date or time is given
-     * 
-     * @param date
-     * @param time
-     * @return
-     */
-    private Time dateFromString(String date) {
-        ;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+			dateStart = null;
+			dateEnd = null;
+			timeStart = null;
+			timeEnd = null;
 
-        Time t = new Time();
+			eventsRecorded++;
+		}
+	}
 
-        try {
-            t.set(sdf.parse(date).getTime());
-        } catch (ParseException e) {
-            Log.d(LOG_TAG, "failed to parse '" + date + "'");
-        }
+	public void startElement(String uri, String localName, String qName,
+			Attributes attributes) {
+		inElement = true;
+		currentElement = localName;
 
-        return t;
-    }
-    
-    /**
-     * Return a Time object which hopefully is equal to what is specified by
-     * parameters. Format assumptions:HH:mm
-     * 
-     * TODO parse if only date or time is given
-     * 
-     * @param date
-     * @param time
-     * @return
-     */
-    private Time timeFromString(String time, String weekDay) {
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        int dayOfWeek = 0;
+		if (currentElement.equals("day")) {
+			if (attributes.getLength() == 1) {
+				weekDay = attributes.getValue(0);
+			}
+		}
 
-        Time t = new Time();        
+	}
 
-        try {
-            /*1.1.1970 is a Thursday (weekday=4)
-             *so add some days to get the correct day of week*/
-            Date parsedDate = sdf.parse(time);
-            dayOfWeek = Integer.parseInt(weekDay);
-            t.set(0, parsedDate.getMinutes(), parsedDate.getHours(), 
-                    t.monthDay + 3 + dayOfWeek, t.month, t.year);
-                        
-        } catch (Exception e) {
-            Log.d(LOG_TAG, "failed to parse '" + time + "'");
-        }
+	/**
+	 * Return a Time object which hopefully is equal to what is specified by
+	 * parameters. Format assumptions: date: DD.MM.YYYY
+	 * 
+	 * TODO parse if only date or time is given
+	 * 
+	 * @param date
+	 * @param time
+	 * @return
+	 */
+	private Time dateFromString(String date) {
+		;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
-        return t;
-    }
-    
+		Time t = new Time();
+
+		try {
+			t.set(sdf.parse(date).getTime());
+		} catch (ParseException e) {
+			Log.d(LOG_TAG, "failed to parse '" + date + "'");
+		}
+
+		return t;
+	}
+
+	/**
+	 * Return a Time object which hopefully is equal to what is specified by
+	 * parameters. Format assumptions:HH:mm
+	 * 
+	 * TODO parse if only date or time is given
+	 * 
+	 * @param date
+	 * @param time
+	 * @return
+	 */
+	private Time timeFromString(String time, String weekDay) {
+		Log.d(LOG_TAG, "Parsing: " + time);
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		int dayOfWeek = 0;
+
+		Time t = new Time();
+
+		try {
+			/*
+			 * 1.1.1970 is a Thursday (weekday=4)so add some days to get the
+			 * correct day of week
+			 */
+			Date parsedDate = sdf.parse(time);
+			dayOfWeek = Integer.parseInt(weekDay);
+			t.set(0, parsedDate.getMinutes(), parsedDate.getHours(), t.monthDay
+					+ 3 + dayOfWeek, t.month, t.year);
+
+		} catch (Exception e) {
+			Log.d(LOG_TAG, "failed to parse '" + time + "'");
+		}
+
+		return t;
+	}
+
 }
