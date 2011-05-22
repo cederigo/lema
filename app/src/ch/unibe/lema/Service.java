@@ -18,7 +18,7 @@ import ch.unibe.lema.provider.Lecture;
 
 public class Service extends android.app.Service {
 
-    private static final String LOG_TAG = "LeMaService";
+    private static final String TAG_NAME = "LeMaService";
     private List<ILectureDataProvider> ldProviders;
     /*simple cache for filter -> lecture-list lookup. valid as long as 
      *the service object lives*/
@@ -43,8 +43,7 @@ public class Service extends android.app.Service {
     }
 
     public void onCreate() {
-        super.onCreate();
-        Log.d(LOG_TAG, "onCreate");
+        Log.d(TAG_NAME, "onCreate ");
         context = getApplicationContext();
         res = context.getResources();
         sub = new Subscriptions(context);
@@ -55,22 +54,24 @@ public class Service extends android.app.Service {
         } catch (LemaException e) {
             handleError(e);
         }
+        super.onCreate();
 
     }
 
     public void onDestroy() {
-        super.onDestroy();
         sub.cleanUp();
-        Log.d(LOG_TAG, "onDestroy");
+        Log.d(TAG_NAME, "onDestroy");
+        super.onDestroy();
     }
 
+    @SuppressWarnings("unchecked")
     private void initDataProviders() throws LemaException {
         activeProvider = -1;
         ldProviders = new LinkedList<ILectureDataProvider>();
         String[] providerClassNames = res.getStringArray(R.array.providers);
 
         for (String className : providerClassNames) {
-            Log.i(LOG_TAG, "init provider: " + className);
+            Log.i(TAG_NAME, "init provider: " + className);
             try {
                 Class providerClass = Class.forName(className);
                 ILectureDataProvider provider = (ILectureDataProvider) providerClass
@@ -120,10 +121,10 @@ public class Service extends android.app.Service {
         
         
         if ( filter2Lectures.containsKey(filter)) {
-            Log.d(LOG_TAG, "lectures from cache-entry: "+filter);
+            Log.d(TAG_NAME, "lectures from cache-entry: "+filter);
             return filter2Lectures.get(filter);
         } else {
-            Log.d(LOG_TAG, "new cache-entry: "+filter);
+            Log.d(TAG_NAME, "new cache-entry: "+filter);
             List<Lecture> newLectures = provider.getLectures(filter);
             filter2Lectures.put(filter, newLectures);
             return newLectures;
@@ -140,16 +141,16 @@ public class Service extends android.app.Service {
         return sub.getAll();
     }
 
-    public Lecture subscribe(Lecture l) {
+    public Lecture subscribe(Lecture l) {        
         return sub.add(l);
     }
 
-    public Lecture unsubscribe(Lecture l) {
+    public Lecture unsubscribe(Lecture l) {        
         return sub.remove(l);
     }
 
     public void handleError(LemaException e) {
-        Log.e(LOG_TAG, e.getMessage());
+        Log.e(TAG_NAME, e.getMessage());
         // notify user..
         Toast toast = Toast.makeText(context,
                 "an error occured: " + e.getMessage(), Toast.LENGTH_LONG);
@@ -157,7 +158,7 @@ public class Service extends android.app.Service {
     }
 
     public void showInfo(String msg) {
-        Log.i(LOG_TAG, msg);
+        Log.i(TAG_NAME, msg);
         // notify user..
         Toast toast = Toast.makeText(context, msg, Toast.LENGTH_SHORT);
         toast.show();

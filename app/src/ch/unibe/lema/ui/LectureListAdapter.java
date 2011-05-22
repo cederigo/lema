@@ -5,13 +5,12 @@ import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ch.unibe.lema.R;
-import ch.unibe.lema.Service;
 import ch.unibe.lema.provider.Lecture;
 
 /**
@@ -22,12 +21,15 @@ import ch.unibe.lema.provider.Lecture;
  */
 
 public class LectureListAdapter extends BaseAdapter {
-
-    private static final String LOG_TAG = "LectureListAdapter";
+    
     private LayoutInflater inflater;
     private List<Lecture> lectureList;
-    private Context context;
-    private Service service;
+    
+    interface OnIconClickListener{
+        public void onIconClick(int position,View v);
+    }
+    
+    private OnIconClickListener iconClickListener;
 
     static class ViewHolder {
         TextView title;
@@ -36,12 +38,12 @@ public class LectureListAdapter extends BaseAdapter {
     }
 
     public LectureListAdapter(Context ctx, List<Lecture> lectureList,
-            Service service) {
+            OnIconClickListener iconClickListener) {
 
         this.lectureList = lectureList;
         inflater = LayoutInflater.from(ctx);
-        this.context = ctx;
-        this.service = service;
+        this.iconClickListener = iconClickListener;
+        
     }
 
     public int getCount() {
@@ -96,31 +98,13 @@ public class LectureListAdapter extends BaseAdapter {
             holder.icon.setImageResource(android.R.drawable.star_big_off);
         }
 
-        final int index = position;
+        final int index = position;        
         holder.icon.setOnClickListener(new OnClickListener() {
-
+            
             public void onClick(View v) {
-                // TODO refactor duplicated code
-                if (l.isSubscription()) {
-                    Lecture replacement = service.unsubscribe(l);
-                    lectureList.set(index, replacement);
-                    notifyDataSetChanged();
-
-                    service.showInfo("Unsubscribed from " + l.getTitle());
-                    ImageView icon = (ImageView) v
-                            .findViewById(R.id.lecturelistitem_icon);
-                    icon.setImageResource(android.R.drawable.star_big_off);
-                } else {
-                    Lecture replacement = service.subscribe(l);
-                    lectureList.set(index, replacement);
-                    notifyDataSetChanged();
-
-                    service.showInfo("Subscribed to " + l.getTitle());
-                    ImageView icon = (ImageView) v
-                            .findViewById(R.id.lecturelistitem_icon);
-                    icon.setImageResource(android.R.drawable.star_big_on);
+                if (iconClickListener != null) {
+                    iconClickListener.onIconClick(index,v);
                 }
-
             }
         });
 
@@ -129,6 +113,16 @@ public class LectureListAdapter extends BaseAdapter {
 
     public void add(Lecture l) {
         lectureList.add(l);
+    }
+    
+    public void replace(int position, Lecture l) {
+        lectureList.set(position, l);
+        notifyDataSetChanged();
+    }
+    
+    public void remove(int position) {
+        lectureList.remove(position);
+        notifyDataSetChanged();
     }
 
     public void clear() {

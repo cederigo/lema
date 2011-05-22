@@ -10,15 +10,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 import ch.unibe.lema.LemaException;
 import ch.unibe.lema.R;
 import ch.unibe.lema.provider.Filter;
 import ch.unibe.lema.provider.FilterCriterion;
 import ch.unibe.lema.provider.Lecture;
+import ch.unibe.lema.ui.LectureListAdapter.OnIconClickListener;
 
-public class BrowseActivity extends BindingActivity {
+public class BrowseActivity extends BindingActivity implements OnIconClickListener {
     private static final String TAG_NAME = "Browse";
     private LectureListAdapter listAdapter;
     private boolean populated = false;
@@ -57,7 +59,31 @@ public class BrowseActivity extends BindingActivity {
             stopWait();
         }
 
+    }    
+    
+    public void onIconClick(int position, View v) {
+        // TODO refactor duplicated code
+        Lecture l = listAdapter.getItem(position);
+        
+        if (l.isSubscription()) {
+            Lecture replacement = mService.unsubscribe(l);            
+            listAdapter.replace(position, replacement);            
+            
+            mService.showInfo("Unsubscribed from " + l.getTitle());
+            ImageView icon = (ImageView) v.findViewById(R.id.lecturelistitem_icon);
+            icon.setImageResource(android.R.drawable.star_big_off);
+        } else {
+            Lecture replacement = mService.subscribe(l);
+            
+            listAdapter.replace(position, replacement);
+            
+            mService.showInfo("Subscribed to " + l.getTitle());
+            ImageView icon = (ImageView) v.findViewById(R.id.lecturelistitem_icon);
+            icon.setImageResource(android.R.drawable.star_big_on);
+        }
+        
     }
+    
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +92,6 @@ public class BrowseActivity extends BindingActivity {
         setContentView(R.layout.browse);
     }
 
-    public void onDestroy() {
-        super.onDestroy();
-    }
 
     private Filter buildFilter(String query) {
         // simple search based on lecture title
@@ -93,18 +116,14 @@ public class BrowseActivity extends BindingActivity {
 
         return filter;
     }
-
-    protected void onResume() {
-        super.onResume();
-
-    }
+   
 
     protected void serviceAvailable() {
         /* setup list */
         if (!populated) {
             final ListView lectureList = (ListView) findViewById(R.id.browse_lecturelist);
             listAdapter = new LectureListAdapter(this,
-                    new LinkedList<Lecture>(), mService);
+                    new LinkedList<Lecture>(), this);
             lectureList.setAdapter(listAdapter);
             lectureList.setOnItemClickListener(new OnItemClickListener() {
 
