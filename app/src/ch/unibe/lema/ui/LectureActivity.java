@@ -75,7 +75,9 @@ public class LectureActivity extends BindingActivity {
 			// TODO refactor
 			public void onClick(View v) {
 				Log.d(TAG_NAME, "adding events to calendar.");
-
+				int insertedEvents = 0;
+				Time now = new Time();
+				now.setToNow();
 				for (Event e : mLecture.getEvents()) {
 					Log.d(TAG_NAME,
 							"Adding " + mLecture.getTitle() + ", "
@@ -84,7 +86,7 @@ public class LectureActivity extends BindingActivity {
 
 					if (e.startTime.month != e.endTime.month) {
 						Log.d(TAG_NAME, "found recurring event");
-						long lstart = e.startTime.toMillis(true);
+						long lstart = e.startTime.toMillis(false);
 						long lend = 0;
 						final long msInWeek = 1000 * 60 * 60 * 24 * 7;
 
@@ -94,14 +96,17 @@ public class LectureActivity extends BindingActivity {
 						start.set(lstart);
 						end.set(0, e.endTime.minute, e.endTime.hour,
 								start.monthDay, start.month, start.year);
-						lend = end.toMillis(true);
+						lend = end.toMillis(false);
 
 						while (end.before(e.endTime)) {
 							Log.d(TAG_NAME,
 									"adding event: " + start.format3339(false)
 											+ " - " + end.format3339(false));
-							mService.addToCalendar(mLecture.getTitle(),
-									start.toMillis(true), end.toMillis(true));
+							if(start.after(now)) {
+							    mService.addToCalendar(mLecture.getTitle(),
+							            start.toMillis(false), end.toMillis(false));							    
+							    insertedEvents++;
+							}
 							lstart += msInWeek;
 							lend += msInWeek;
 
@@ -111,6 +116,8 @@ public class LectureActivity extends BindingActivity {
 					}
 
 				}
+				
+				mService.showInfo("added " + insertedEvents + " events to calendar");
 
 			}
 		});
