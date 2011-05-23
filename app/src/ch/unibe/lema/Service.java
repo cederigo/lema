@@ -174,7 +174,7 @@ public class Service extends android.app.Service {
 
 		Cursor cursor;
 
-		if (Integer.parseInt(Build.VERSION.SDK) == 8) {
+		if (Integer.parseInt(Build.VERSION.SDK) >= 8) {
 			cursor = cr.query(
 					Uri.parse("content://com.android.calendar/calendars"),
 					new String[] { "_id", "displayname" }, null, null, null);
@@ -201,7 +201,7 @@ public class Service extends android.app.Service {
 			cv.put("dtend", dtend);
 
 			Uri newEvent;
-			if (Integer.parseInt(Build.VERSION.SDK) == 8) {
+			if (Integer.parseInt(Build.VERSION.SDK) >= 8) {
 				newEvent = cr.insert(
 						Uri.parse("content://com.android.calendar/events"), cv);
 			} else {
