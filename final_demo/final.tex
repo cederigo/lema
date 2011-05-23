@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\usepackage[latin1]{inputenc}
+\usepackage[utf8]{inputenc}
 \usetheme{Boadilla}
 \title[Integrated Lecture Management]{Integrated Lecture Management: Final Demo}
 \date{\today}
@@ -23,13 +23,16 @@
 \end{frame}
 
 \begin{frame}{What we achieved}
+	\section{What we achieved}
 	\begin{itemize}
 		\item Integration with Google Maps (only works if locations are entered in EVUB)
+		\item Partial integration with default calendar on the handset (if included by vendor)
 		\item Being frustrated with state of Google Calendar APIs for Android and EVUB
 	\end{itemize}
 \end{frame}
 
 \begin{frame}{Problems: Google APIs}
+	\section{Problems: Google APIs}
 	There are two APIs from Google for accessing their services: \textbf{google-api-java-client} and 			\textbf{gdata-java-client}.
 		\\
 	\bigskip
@@ -51,11 +54,27 @@
 \end{frame}
 
 \begin{frame}{Problems: EVUB}
+	\section{Problems: EVUB}
 	\begin{itemize}
 		\item Non-standard Date/Time formats, i.e. DD.MM.YYYY $\Rightarrow$ parsing.....
 		\item Time and date information are stored in seperate XML nodes, $<date\_start>, <time\_start>$
 		\item Location information not always provided
 		\item No distinction between single and recurring events
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Who did what?}
+	\section{Who did what?}
+	Cédric
+	\begin{itemize}
+		\item Integration with Google Maps
+		\item Modify parser to record multiple events per lecture
+	\end{itemize}
+	\bigskip
+	Björn
+	\begin{itemize}
+		\item Modify database to record multiple events per lecture
+		\item Trying to integrate with Google Calendar and Android Calendar
 	\end{itemize}
 \end{frame}
 	
