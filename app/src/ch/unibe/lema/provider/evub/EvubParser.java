@@ -165,14 +165,19 @@ public class EvubParser extends DefaultHandler {
 		Time t = new Time();
 
 		try {
-			/*
-			 * 1.1.1970 is a Thursday (weekday=4)so add some days to get the
-			 * correct day of week
-			 */
+			
 			Date parsedDate = sdf.parse(time);
-			dayOfWeek = Integer.parseInt(weekDay);
+			//for some reason sometimes there are values not in the range
+			dayOfWeek = Integer.parseInt(weekDay) % 7; 
 			t.set(0, parsedDate.getMinutes(), parsedDate.getHours(),
 					time2.monthDay, time2.month, time2.year);
+			Log.d(LOG_TAG, "expected weekday: " + dayOfWeek);
+			
+			while (t.weekDay != dayOfWeek) {
+			    t.monthDay++;
+			    t.normalize(true);
+			}	
+			
 
 		} catch (Exception e) {
 			Log.d(LOG_TAG, "failed to parse '" + time + "'");
